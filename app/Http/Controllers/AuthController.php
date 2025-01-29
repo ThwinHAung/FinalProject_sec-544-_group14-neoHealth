@@ -16,4 +16,9 @@ class AuthController extends Controller
     {
         // Process login here
     }
+
+    public function showRegisterForm()
+    {
+        return view('auth.register'); // Ensure this matches your Blade file path
+    }
 }
