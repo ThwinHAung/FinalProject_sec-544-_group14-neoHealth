@@ -27,7 +27,8 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 //Admin
 Route::get('/admin_dashboard',[DashboardController::class,'showDashboard'])->name('admin.dashboard');
 
-Route::get('/admin_dashboard/user',[DashboardController::class,'user_table'])->name('admin.user');
+Route::get('/admin_dashboard/user_table',[DashboardController::class,'user_table'])->name('admin.user');
+Route::get('/admin_dashboard/appointment_table',[DashboardController::class,'appointment_table'])->name('admin.appointment');
 
 //Patient
 Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboard'])->name('patient.dashboard');

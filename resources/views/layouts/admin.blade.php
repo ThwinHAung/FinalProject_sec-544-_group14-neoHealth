@@ -19,7 +19,7 @@
                 <li><a href="{{ route('admin.dashboard') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
                 <li><a href="{{ route('admin.user') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Users</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Doctors</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Appointments</a></li>
+                <li><a href="{{ route('admin.appointment')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Appointments</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>

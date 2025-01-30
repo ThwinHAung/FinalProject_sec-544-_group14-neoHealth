@@ -14,6 +14,9 @@ class DashboardController extends Controller
     public function user_table(){
         return view('admin.user_table');
     }
+    public function appointment_table(){
+        return view('admin.user_table');
+    }
 
     //Patient
     public function showPatientDashboard(){
