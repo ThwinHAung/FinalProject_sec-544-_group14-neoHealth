@@ -1,39 +1,19 @@
 @extends('layouts.admin')
 
 @section('content')
-
-<div class="mb-5 flex items-center justify-between space-x-4">
-    <!-- First form input -->
-    <div class="flex-grow">
-        <label for="doctor-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Booking Id</label>
-        <input type="text" id="doctor-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter booking Id" required>
+<div class="mb-5 flex items-center space-x-4 justify-between">
+    <!-- Form input -->
+    <div class="flex-grow max-w-xs">
+        <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor name</label>
+        <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "placeholder="Enter doctor name" required>
     </div>
 
-    <!-- Second form input -->
-    <div class="flex-grow">
-        <label for="doctor-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor name</label>
-        <input type="text" id="doctor-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter doctor name" required>
-    </div>
-
-    <!-- Date range picker -->
-    <div id="date-range-picker" class="flex items-center space-x-4 mt-7">
-        <div class="relative">
-            <input id="datepicker-range-start" name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select start date">
-        </div>
-        <span class="text-gray-500">to</span>
-        <div class="relative">
-            <input id="datepicker-range-end" name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select end date">
-        </div>
-    </div>
-
-    <!-- Search button aligned to the right -->
-    <div class="ml-auto mt-7">
+    <!-- Buttons -->
+    <div class="flex space-x-4">
         <button type="button" class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        <button type="button" class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Doctor</button>
     </div>
 </div>
-
-
-
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

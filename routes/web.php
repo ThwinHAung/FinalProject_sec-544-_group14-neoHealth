@@ -29,6 +29,7 @@ Route::get('/admin_dashboard',[DashboardController::class,'showDashboard'])->nam
 
 Route::get('/admin_dashboard/user_table',[DashboardController::class,'user_table'])->name('admin.user');
 Route::get('/admin_dashboard/appointment_table',[DashboardController::class,'appointment_table'])->name('admin.appointment');
+Route::get('/admin_dashboard/doctor_table',[DashboardController::class,'doctor_table'])->name('admin.doctor');
 
 //Patient
 Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboard'])->name('patient.dashboard');

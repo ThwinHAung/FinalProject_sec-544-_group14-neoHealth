@@ -10,18 +10,18 @@
     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Card 1 -->
         <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Users</h4>
+            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Doctor</h4>
             <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">1,245</p>
         </div>
         <!-- Card 2 -->
         <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">New Orders</h4>
+            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Today Patient</h4>
             <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">52</p>
         </div>
         <!-- Card 3 -->
         <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Revenue</h4>
-            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">$12,628</p>
+            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Today Appointment</h4>
+            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">12,628</p>
         </div>
     </div>
 @endsection

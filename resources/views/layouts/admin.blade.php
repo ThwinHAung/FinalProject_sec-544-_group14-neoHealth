@@ -13,12 +13,14 @@
         <!-- Sidebar -->
         <div class="w-64 bg-gray-800 text-white">
             <div class="h-16 flex items-center justify-center bg-gray-900">
-                <h1 class="text-2xl font-semibold">Admin Panel</h1>
+                <h1 class="text-4xl font-bold text-white">
+                    Neo  <span class="text-green-500">Health</span>
+                </h1>
             </div>
             <ul class="space-y-2 mt-4 px-4">
                 <li><a href="{{ route('admin.dashboard') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
-                <li><a href="{{ route('admin.user') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Users</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Doctors</a></li>
+                <li><a href="{{ route('admin.user') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Patient</a></li>
+                <li><a href="{{ route('admin.doctor')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Doctors</a></li>
                 <li><a href="{{ route('admin.appointment')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Appointments</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
@@ -41,5 +43,6 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
 </body>
 </html>
