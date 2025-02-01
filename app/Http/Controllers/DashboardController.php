@@ -27,9 +27,17 @@ class DashboardController extends Controller
         return view('patient.dashboard');
     }
 
+    public function showAppointmentHistory(){
+        return view('patient.booking_history');
+    }
+
     //Doctor
     public function showDoctorDashboard(){
         return view('doctor.dashboard');
+    }
+
+    public function showAppointmentHistoryAtDoctor(){
+        return view('doctor.booking_history');
     }
 
 }

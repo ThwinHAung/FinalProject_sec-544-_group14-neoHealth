@@ -13,13 +13,15 @@
         <!-- Sidebar -->
         <div class="w-64 bg-gray-800 text-white">
             <div class="h-16 flex items-center justify-center bg-gray-900">
-                <h1 class="text-2xl font-semibold">Doctor Panel</h1>
+                <h1 class="text-4xl font-bold text-white">
+                    Neo  <span class="text-green-500">Health</span>
+                </h1>
             </div>
             <ul class="space-y-2 mt-4 px-4">
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">One</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Two</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Three</a></li>
+                <li><a href="{{route('doctor.dashboard')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
+                <li><a href="{{route('doctor.appointment_history')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Booking History</a></li>
+                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Create Prescription</a></li>
+                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Available Schedule</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>
