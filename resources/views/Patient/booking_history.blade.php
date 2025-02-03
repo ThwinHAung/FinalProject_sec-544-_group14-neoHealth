@@ -1,6 +1,6 @@
 @extends('layouts.patient')
 
-@section('title', 'Patient Dashboard')
+@section('title', 'Appointment History')
 @section('content')
 <div class="mb-5 flex items-center justify-between space-x-4">
     <!-- First form input -->

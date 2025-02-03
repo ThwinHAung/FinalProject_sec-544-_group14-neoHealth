@@ -6,6 +6,7 @@
     <title>@yield('title', 'Admin Dashboard')</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">
     <div class="flex h-screen">
@@ -43,6 +44,5 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
 </body>
 </html>

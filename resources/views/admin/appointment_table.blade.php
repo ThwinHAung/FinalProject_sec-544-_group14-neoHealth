@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Appointment Table')
+
 @section('content')
 
 <div class="mb-5 flex items-center justify-between space-x-4">
@@ -256,5 +258,21 @@
         </button>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
+
+  <!-- Custom Script for Datepicker Initialization -->
+  <script>
+      // Wait for the DOM to load before initializing Flowbite
+      document.addEventListener('DOMContentLoaded', function () {
+          const startDatePicker = new Datepicker(document.getElementById('datepicker-range-start'), {
+              format: 'mm/dd/yyyy', // you can change the date format as needed
+          });
+
+          const endDatePicker = new Datepicker(document.getElementById('datepicker-range-end'), {
+              format: 'mm/dd/yyyy', // you can change the date format as needed
+          });
+      });
+  </script>
 
 @endsection

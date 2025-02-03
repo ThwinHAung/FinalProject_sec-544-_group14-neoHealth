@@ -1,6 +1,6 @@
 @extends('layouts.doctor')
 
-@section('title', 'Doctor Dashboard')
+@section('title', 'Appointment History')
 @section('content')
 
 <div class="mb-5 flex items-center justify-between space-x-4">
@@ -227,5 +227,4 @@
         </tbody>
     </table>
 </div>
-
 @endsection

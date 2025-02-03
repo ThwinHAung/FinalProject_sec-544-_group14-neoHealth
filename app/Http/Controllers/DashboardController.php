@@ -43,4 +43,8 @@ class DashboardController extends Controller
         return view('doctor.booking_history');
     }
 
+    public function CreateWorkingSchedule(){
+        return view('doctor.time_slot');
+    }
+
 }
