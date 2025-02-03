@@ -6,6 +6,7 @@
     <title>@yield('title', 'Doctor Dashboard')</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">
     <div class="flex h-screen">
@@ -21,7 +22,7 @@
                 <li><a href="{{route('doctor.dashboard')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
                 <li><a href="{{route('doctor.appointment_history')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Booking History</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Create Prescription</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Available Schedule</a></li>
+                <li><a href="{{route('doctor.working_schedule')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Available Schedule</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>
@@ -43,5 +44,20 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
+
+<!-- Custom Script for Datepicker Initialization -->
+<script>
+    // Wait for the DOM to load before initializing Flowbite
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDatePicker = new Datepicker(document.getElementById('datepicker-range-start'), {
+            format: 'mm/dd/yyyy', // you can change the date format as needed
+        });
+
+        const endDatePicker = new Datepicker(document.getElementById('datepicker-range-end'), {
+            format: 'mm/dd/yyyy', // you can change the date format as needed
+        });
+    });
+</script>
 </body>
 </html>

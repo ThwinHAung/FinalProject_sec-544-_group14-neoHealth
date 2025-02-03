@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Doctor List')
+
 @section('content')
 <div class="mb-5 flex items-center space-x-4 justify-between">
     <!-- Form input -->
