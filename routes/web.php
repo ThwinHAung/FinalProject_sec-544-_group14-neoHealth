@@ -33,7 +33,9 @@ Route::get('/admin_dashboard/doctor_table',[DashboardController::class,'doctor_t
 
 //Patient
 Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboard'])->name('patient.dashboard');
+Route::get('/patient_dashboard/booking',[DashboardController::class,'makeAppointment'])->name('patient.booking');
 Route::get('/patient_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistory'])->name('patient.appointment_history');
+
 //Doctor 
 Route::get('/doctor_dashboard',[DashboardController::class,'showDoctorDashboard'])->name('doctor.dashboard');
 Route::get('/doctor_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistoryAtDoctor'])->name('doctor.appointment_history');

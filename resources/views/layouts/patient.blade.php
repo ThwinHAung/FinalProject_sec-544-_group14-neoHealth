@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Patient Dashboard')</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.css" rel="stylesheet" />
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -19,7 +20,7 @@
             </div>
             <ul class="space-y-2 mt-4 px-4">
                 <li><a href="{{ route('patient.dashboard')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Make Appointment</a></li>
+                <li><a href="{{ route('patient.booking')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Make Appointment</a></li>
                 <li><a href="{{ route('patient.appointment_history')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Booking History</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Medicine Prescription</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
@@ -43,5 +44,6 @@
             </div>
         </div>
     </div>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.js"></script>
 </body>
 </html>
