@@ -23,7 +23,7 @@
                 <li><a href="{{ route('admin.user') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Patient</a></li>
                 <li><a href="{{ route('admin.doctor')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Doctors</a></li>
                 <li><a href="{{ route('admin.appointment')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Appointments</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
+                <li><a href="{{ route('login')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>
 
@@ -44,5 +44,6 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
 </body>
 </html>
