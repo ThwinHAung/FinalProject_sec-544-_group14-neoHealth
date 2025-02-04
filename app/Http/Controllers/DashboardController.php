@@ -47,4 +47,8 @@ class DashboardController extends Controller
         return view('doctor.time_slot');
     }
 
+    public function CreatePresctiption(){
+        return view('doctor.medicine_prescription');
+    }
+
 }
