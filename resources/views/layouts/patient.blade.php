@@ -22,7 +22,7 @@
                 <li><a href="{{ route('patient.dashboard')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
                 <li><a href="{{ route('patient.booking')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Make Appointment</a></li>
                 <li><a href="{{ route('patient.appointment_history')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Booking History</a></li>
-                <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Medicine Prescription</a></li>
+                <li><a href="{{route('patient.prescription')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Medicine Prescription</a></li>
                 <li><a href="#" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>
@@ -31,7 +31,7 @@
         <div class="flex-1 p-6">
             <!-- Navbar -->
             <div class="flex items-center justify-between mb-6">
-                <div class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard</div>
+                <div class="text-xl font-semibold text-gray-800 dark:text-white">@yield('header')</div>
                 <div class="space-x-4">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">Profile</button>
                     <button class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
