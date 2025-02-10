@@ -24,6 +24,49 @@
             <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">$12,628</p>
         </div> --}}
     </div>
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Monty Appointment Count</h2>
+          <div class="h-64">
+            <canvas id="appointmentChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        const ctx = document.getElementById('appointmentChart').getContext('2d');
+        const appointmentChart = new Chart(ctx, {
+          type: 'bar',  // Bar chart; change to 'line' if you prefer a line chart
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],  // 12 months of the year
+            datasets: [{
+              label: 'Appointments',
+              data: [14, 20, 18, 18, 20, 15, 10, 25, 22, 30, 28, 32],  // Sample data for each month
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Light green color
+              borderColor: 'rgba(75, 192, 192, 1)',  // Darker green for the border
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true  // Ensures the y-axis starts at zero
+              }
+            }
+          }
+        });
+      </script>
+
+    {{-- <div id="date-range-picker" class="flex items-center space-x-4 mt-7">
+        <div class="relative">
+            <input id="datepicker-range-start" name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select start date">
+        </div>
+        <span class="text-gray-500">to</span>
+        <div class="relative">
+            <input id="datepicker-range-end" name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select end date">
+        </div>
+    </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -138,7 +181,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div> --}}
     
     
 @endsection

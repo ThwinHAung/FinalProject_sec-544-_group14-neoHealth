@@ -24,4 +24,39 @@
             <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">12,628</p>
         </div>
     </div>
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Monty Appointment Count</h2>
+          <div class="h-64">
+            <canvas id="appointmentChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        const ctx = document.getElementById('appointmentChart').getContext('2d');
+        const appointmentChart = new Chart(ctx, {
+          type: 'bar',  // Bar chart; change to 'line' if you prefer a line chart
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],  // 12 months of the year
+            datasets: [{
+              label: 'Appointments',
+              data: [8, 12, 14, 18, 20, 15, 10, 25, 22, 30, 28, 32],  // Sample data for each month
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Light green color
+              borderColor: 'rgba(75, 192, 192, 1)',  // Darker green for the border
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true  // Ensures the y-axis starts at zero
+              }
+            }
+          }
+        });
+      </script>
+      
+            
 @endsection

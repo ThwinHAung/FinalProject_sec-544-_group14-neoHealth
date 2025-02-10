@@ -137,20 +137,47 @@
     </div>
   </div>
 
-  <div id="detailsModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-    <div class="bg-gray-300 rounded-lg shadow-lg p-6 w-96">
-        <h2 class="text-xl font-bold mb-4">Booking Details</h2>
-        <p><strong>Doctor:</strong> <span id="modalDoctor"></span></p>
-        <p><strong>Specialty:</strong> <span id="modalSpecialty"></span></p>
-        <p><strong>Date:</strong> <span id="modalDate"></span></p>
-        <p><strong>Time:</strong> <span id="modalTime"></span></p>
-        <p><strong>Status:</strong> <span id="modalStatus"></span></p>
-        <p><strong>Medicine Prescription:</strong></p>
-        <ul id="modalMeds" class="list-disc pl-5"></ul>
-        <button id="closeModalBtn" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Close</button>
+  <div id="detailsModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-50">
+    <div class="relative w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 space-y-4">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Booking Details
+                </h3>
+                <button id="closeModalBtn" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="detailsModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 space-y-4">
+                <div class="space-y-2">
+                    <p><strong>Doctor:</strong> <span id="modalDoctor"></span></p>
+                    <p><strong>Specialty:</strong> <span id="modalSpecialty"></span></p>
+                    <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                    <p><strong>Time:</strong> <span id="modalTime"></span></p>
+                    <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                    <p><strong>Medicine Prescription:</strong></p>
+                    <ul id="modalMeds" class="list-disc pl-5"></ul>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button id="closeModalBtn" type="button" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                    Close
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
     const viewDetailsBtns = document.querySelectorAll('.viewDetailsBtn');
     const modal = document.getElementById('detailsModal');

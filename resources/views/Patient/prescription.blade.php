@@ -68,8 +68,8 @@
 
 <!-- Modal -->
 <div id="detailsModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg w-1/3 p-6 relative">
-        <h2 class="text-lg font-bold mb-4">Appointment Details</h2>
+    <div class="bg-white rounded-lg shadow-lg w-1/3 p-6 relative space-y-2">
+        <h2 class="text-lg font-bold mb-4">Prescription Details</h2>
         <p><strong>Doctor Name:</strong> Dr. John Smith</p>
         <p><strong>Appointment Date:</strong> 02/19/2025</p>
         <p><strong>Dosage:</strong> 500mg twice a day</p>

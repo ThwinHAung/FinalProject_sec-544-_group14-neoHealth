@@ -68,7 +68,14 @@
                 <td class="px-6 py-4">Regular check-up</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" data-modal-target="appointment-detail-modal" data-modal-toggle="appointment-detail-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" 
+                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+                    onclick="showRescheduleModal(event)">
+                    Reschedule
+                    </a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a> 
+                    <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline ms-3">Update</a>
+                </td>  
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -85,7 +92,7 @@
                 <td class="px-6 py-4">Skin examination</td>
                 <td class="px-6 py-4">Completed</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" data-modal-target="appointment-detail-modal" data-modal-toggle="appointment-detail-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -102,7 +109,10 @@
                 <td class="px-6 py-4">Back pain treatment</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
+                    <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline ms-3">Update</a>
+                </td>   
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -119,7 +129,10 @@
                 <td class="px-6 py-4">Routine check-up</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>   
+                    <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline ms-3">Update</a>
+                </td>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -153,7 +166,10 @@
                 <td class="px-6 py-4">Pre-surgery consultation</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a> 
+                    <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline ms-3">Update</a>
+                </td>  
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -187,7 +203,10 @@
                 <td class="px-6 py-4">Annual health check</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a> 
+                    <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline ms-3">Update</a>
+                </td>  
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -221,7 +240,10 @@
                 <td class="px-6 py-4">Follow-up consultation</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a> 
+                    <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline ms-3">Update</a>
+                </td>  
                 </td>
             </tr>
         </tbody>
@@ -263,4 +285,122 @@
     </div>
 </div>
 
+<div id="rescheduleModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg  p-6 relative">
+        <h2 class="text-lg font-bold mb-4">Reschedule Appointment</h2>
+        <div id="results" class="mt-6 gap-4">
+            <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3">
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
+                            10:00 AM - 10:30 AM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            11:30 AM - 12:00 PM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            12:30 PM - 1:00 PM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            1:30 PM - 2:00 PM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            02:30 PM - 03:00 PM
+                        </button>
+                    </div>   
+            </div>
+    
+            <div class="flex justify-end">
+                <button class="mt-4 ms-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                    Book Now
+                </button>
+            </div>
+                       
+        </div>
+
+        <!-- Close Button -->
+        <button 
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" 
+            onclick="closeRescheduleModal()">
+            ✖
+        </button>
+    </div>
+</div>
+
+<div id="bookingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-gray-800 text-white rounded-lg p-6 shadow-lg w-96">
+      <h3 class="text-lg font-bold">Confirm Rebooking</h3>
+      <p class="text-gray-400 mt-2">Are you sure you want to rebook this time slot?</p>
+      
+         <textarea
+        id="bookingDescription"
+        class="w-full mt-4 bg-gray-700 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+        placeholder="Add any additional details (optional)..."
+        rows="3"
+        > </textarea>
+      <div class="mt-4 flex justify-end space-x-4">
+        <button id="cancelButton" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition">Cancel</button>
+        <button id="confirmButton" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function showRescheduleModal(event) {
+        event.preventDefault(); // Prevent link default action
+        document.getElementById('rescheduleModal').classList.remove('hidden');
+    }
+
+    function closeRescheduleModal() {
+        document.getElementById('rescheduleModal').classList.add('hidden');
+    }
+
+    $(document).ready(function () {
+        // Functionality to select only one time option across all cards
+        $("#results").on("click", "button.bg-gray-700", function () {
+            console.log("Time button clicked:", $(this).text());
+
+            // Deselect all previously selected time buttons
+            $("button.bg-blue-600").removeClass("bg-blue-600").addClass("bg-gray-700");
+
+            // Highlight the clicked button
+            $(this).removeClass("bg-gray-700").addClass("bg-blue-600");
+
+            
+            console.log("Selected time across all cards:", $(this).text());
+        });
+
+        console.log("jQuery is loaded and ready.");
+        $("#results").on("click", ".bg-green-600", function () {
+        console.log("Book Now button clicked");
+        // Show the modal
+        $("#bookingModal").removeClass("hidden").addClass("flex");
+        });
+
+
+        $("#cancelButton").on("click", function () {
+        console.log("Booking canceled");
+        // Hide the modal
+        $("#bookingModal").removeClass("flex").addClass("hidden");
+        });
+
+        $("#confirmButton").on("click", function () {
+            console.log("Booking confirmed");
+            // Hide the modal
+            $("#bookingModal").removeClass("flex").addClass("hidden");
+        });
+    });
+    document.getElementById('confirmButton').addEventListener('click', function() {
+    alert('Booking Confirmed');
+    window.location.reload();
+
+  });
+</script>
 @endsection

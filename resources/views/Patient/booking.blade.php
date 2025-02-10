@@ -146,10 +146,9 @@
             console.log("Time button clicked:", $(this).text());
 
             // Deselect all previously selected time buttons
-            $("button.bg-blue-600").removeClass("bg-blue-600").addClass("bg-gray-700");
-
+            $("button.bg-green-500").removeClass("bg-green-500").addClass("bg-gray-700");
             // Highlight the clicked button
-            $(this).removeClass("bg-gray-700").addClass("bg-blue-600");
+            $(this).removeClass("bg-gray-700").addClass("bg-green-500");
 
             // Log the selected time
             console.log("Selected time across all cards:", $(this).text());

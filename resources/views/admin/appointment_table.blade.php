@@ -72,7 +72,11 @@
                 <td class="px-6 py-4">10:00 AM</td>
                 <td class="px-6 py-4">Scheduled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
+                    <a href="#" 
+                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+                    onclick="showRescheduleModal(event)">
+                    Reschedule
+                    </a>
                     <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
                 </td>
             </tr>
@@ -90,8 +94,7 @@
                 <td class="px-6 py-4">02:00 PM</td>
                 <td class="px-6 py-4">Completed</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -108,8 +111,7 @@
                 <td class="px-6 py-4">09:30 AM</td>
                 <td class="px-6 py-4">Canceled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -144,8 +146,7 @@
                 <td class="px-6 py-4">12:30 PM</td>
                 <td class="px-6 py-4">Completed</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -180,8 +181,7 @@
                 <td class="px-6 py-4">04:00 PM</td>
                 <td class="px-6 py-4">Completed</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -216,8 +216,7 @@
                 <td class="px-6 py-4">06:00 PM</td>
                 <td class="px-6 py-4">Canceled</td>
                 <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -259,10 +258,66 @@
     </div>
   </div>
 
+  <div id="rescheduleModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg  p-6 relative">
+        <h2 class="text-lg font-bold mb-4">Reschedule Appointment</h2>
+        <div id="results" class="mt-6 gap-4">
+            <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3">
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
+                            10:00 AM - 10:30 AM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            11:30 AM - 12:00 PM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            12:30 PM - 1:00 PM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            1:30 PM - 2:00 PM
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
+                            02:30 PM - 03:00 PM
+                        </button>
+                    </div>   
+            </div>
+    
+            <div class="flex justify-end">
+                <button class="mt-4 ms-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                    Book Now
+                </button>
+            </div>
+                       
+        </div>
+
+        <!-- Close Button -->
+        <button 
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" 
+            onclick="closeRescheduleModal()">
+            ✖
+        </button>
+    </div>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
 
   <!-- Custom Script for Datepicker Initialization -->
   <script>
+    function showRescheduleModal(event) {
+        event.preventDefault(); // Prevent link default action
+        document.getElementById('rescheduleModal').classList.remove('hidden');
+    }
+    function closeRescheduleModal() {
+        document.getElementById('rescheduleModal').classList.add('hidden');
+    }
       // Wait for the DOM to load before initializing Flowbite
       document.addEventListener('DOMContentLoaded', function () {
           const startDatePicker = new Datepicker(document.getElementById('datepicker-range-start'), {
