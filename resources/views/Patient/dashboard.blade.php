@@ -5,9 +5,17 @@
 @section('header')
 <h1>Patient Dashboard</h1>
 @endsection
-
 @section('content')
-<h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Hello John, Welcome to Your Health Dashboard!</h3>
+
+
+
+<h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Hello
+    @if (session()->has('patient'))
+    {{ session('patient')->name }}!
+@else
+    Patient!
+@endif
+    , Welcome to Your Health Dashboard!</h3>
 <p class="mt-4 text-gray-600 dark:text-gray-300">We’re excited to help you stay on top of your health. Here’s a quick overview of your appointments and medical details.</p>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">

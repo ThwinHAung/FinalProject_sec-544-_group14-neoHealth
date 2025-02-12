@@ -24,7 +24,12 @@ class DashboardController extends Controller
 
     //Patient
     public function showPatientDashboard(){
-        return view('patient.dashboard');
+        if (!session()->has('patient')) {
+            return redirect()->route('login'); // Redirect to register if no session
+        }
+    
+        return view('patient.dashboard', ['patient' => session('patient')]);
+    
     }
     public function makeAppointment(){
         return view('patient.booking');

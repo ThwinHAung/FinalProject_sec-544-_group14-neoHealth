@@ -32,9 +32,9 @@
             <!-- Navbar -->
             <div class="flex items-center justify-between mb-6">
                 <div class="text-xl font-semibold text-gray-800 dark:text-white">@yield('header')</div>
-                <div class="space-x-4">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded">Profile</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+                <div class="space-x-2">
+                    <a class="bg-blue-500 text-white px-4 py-3 rounded">Profile</a>
+                    <a href="{{route('login')}}" class="bg-red-500 text-white px-4 py-3 rounded">Logout</a>
                 </div>
             </div>
 
