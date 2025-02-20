@@ -20,10 +20,9 @@
             </div>
             <ul class="space-y-2 mt-4 px-4">
                 <li><a href="{{ route('admin.dashboard') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
-                <li><a href="{{ route('admin.user') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Patient</a></li>
+                <li><a href="{{ route('admin.patient') }}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Patient</a></li>
                 <li><a href="{{ route('admin.doctor')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Doctors</a></li>
                 <li><a href="{{ route('admin.appointment')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Appointments</a></li>
-                <li><a href="{{ route('login')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>
 
@@ -34,7 +33,7 @@
                 <div class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard</div>
                 <div class="space-x-4">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">Profile</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+                    <a href="{{route('login')}}" class="bg-red-500 text-white px-4 py-3 rounded">Logout</a>
                 </div>
             </div>
 

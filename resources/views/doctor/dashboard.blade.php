@@ -3,7 +3,12 @@
 @section('title', 'Doctor Dashboard')
 
 @section('content')
-<h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Hello Dr. John Smith, Welcome to Your Health Dashboard!</h3>
+<h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Hello
+    @if (session()->has('doctor'))
+    {{ session('doctor')->name }}!
+@else
+    Patient!
+@endif
 <p class="mt-4 text-gray-600 dark:text-gray-300">We’re here to support you in delivering excellent care. Here’s a quick overview of your upcoming appointments, patient details, and medical activities.</p>
 
     <!-- Example Content -->

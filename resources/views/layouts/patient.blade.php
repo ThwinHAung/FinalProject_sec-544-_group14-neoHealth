@@ -23,7 +23,6 @@
                 <li><a href="{{ route('patient.booking')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Make Appointment</a></li>
                 <li><a href="{{ route('patient.appointment_history')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Booking History</a></li>
                 <li><a href="{{route('patient.prescription')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Medicine Prescription</a></li>
-                <li><a href="{{route('login')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Logout</a></li>
             </ul>
         </div>
 

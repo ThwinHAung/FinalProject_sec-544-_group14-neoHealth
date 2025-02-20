@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('department');
             $table->string('specialty');
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('phone_number', 15);
             $table->foreign('employee_id')->references('id')->on('employees')
                   ->onUpdate('cascade')->onDelete('cascade');

@@ -18,10 +18,6 @@ class DashboardController extends Controller
         return view('admin.appointment_table');
     }
 
-    public function doctor_table(){
-        return view('admin.doctor_table');
-    }
-
     //Patient
     public function showPatientDashboard(){
         if (!session()->has('patient')) {

@@ -28,9 +28,12 @@
             <form action="{{ route('login') }}" method="POST" class="mt-6">
                 @csrf
                 <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Username</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" id="email" name="email" required
                         class="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    @error('email')
+                    <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">

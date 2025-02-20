@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->string('email')->unique();
+            $table->string('password');
             $table->string('phone_number', 15);
             $table->foreign('employee_id')->references('id')->on('employees')
                   ->onUpdate('cascade')->onDelete('cascade');

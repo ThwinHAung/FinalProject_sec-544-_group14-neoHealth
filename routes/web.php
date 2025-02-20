@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\PatientController;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,9 +31,14 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 //Admin
 Route::get('/admin_dashboard',[DashboardController::class,'showDashboard'])->name('admin.dashboard');
 
-Route::get('/admin_dashboard/user_table',[DashboardController::class,'user_table'])->name('admin.user');
+Route::get('/admin_dashboard/user_table',[PatientController::class,'show_patient_table'])->name('admin.patient');
+Route::delete('/admin_dashboard/user_table/{patient}',[PatientController::class,'destroy'])->name('admin.patient.remove');
 Route::get('/admin_dashboard/appointment_table',[DashboardController::class,'appointment_table'])->name('admin.appointment');
-Route::get('/admin_dashboard/doctor_table',[DashboardController::class,'doctor_table'])->name('admin.doctor');
+Route::get('/admin_dashboard/doctor_table',[DoctorController::class,'show_doctor_table'])->name('admin.doctor');
+Route::post('/admin_dashboard/doctor_table',[DoctorController::class,'store'])->name('admin.storedoctor');
+Route::delete('/admin_dashboard/doctor_table/{doctor}',[DoctorController::class,'destroy'])->name('admin.doctor.remove');
+Route::get('/admin_dashboard/doctor_table/{doctorId}/edit', [DoctorController::class, 'edit'])->name('admin.doctor.edit');
+Route::put('/admin_dashboard/doctor_table/{doctorId}', [DoctorController::class, 'updateDoctor'])->name('admin.doctor.update');
 
 //Patient
 Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboard'])->name('patient.dashboard');

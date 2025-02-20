@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->enum('role', ['Admin', 'Doctor'])->default('doctor');
-            $table->integer('length_of_employment')->default(0);
             $table->date('start_date')->nullable();
             $table->timestamps();
         });

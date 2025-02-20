@@ -2,8 +2,18 @@
 
 @section('title', 'Admin Dashboard')
 
+@section('header')
+<h1>Admin Dashboard</h1>
+@endsection
 @section('content')
-    <h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Welcome to the Admin Dashboard</h3>
+
+<h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Hello
+    @if (session()->has('admin'))
+    {{ session('admin')->name }}!
+@else
+    Admin!
+@endif
+    , Welcome to Your Health Dashboard!</h3>
     <p class="mt-4 text-gray-600 dark:text-gray-300">Here is a summary of your dashboard statistics.</p>
 
     <!-- Example Content -->
