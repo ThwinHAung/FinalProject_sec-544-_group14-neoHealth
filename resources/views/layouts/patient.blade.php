@@ -33,7 +33,7 @@
                 <div class="text-xl font-semibold text-gray-800 dark:text-white">@yield('header')</div>
                 <div class="space-x-2">
                     <a class="bg-blue-500 text-white px-4 py-3 rounded">Profile</a>
-                    <a href="{{route('login')}}" class="bg-red-500 text-white px-4 py-3 rounded">Logout</a>
+                    <a href="{{route('logout')}}" class="bg-red-500 text-white px-4 py-3 rounded">Logout</a>
                 </div>
             </div>
 

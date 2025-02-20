@@ -8,7 +8,7 @@
 @section('content')
 
 <h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Hello
-    @if (session()->has('admin'))
+@if (session()->has('admin'))
     {{ session('admin')->name }}!
 @else
     Admin!

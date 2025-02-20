@@ -12,10 +12,20 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function logout(Request $request)
+{
+    // Clear all authentication-related session keys
+    $request->session()->forget(['admin', 'patient', 'doctor']);
+    
+    // Optionally invalidate the entire session for extra security
+    $request->session()->invalidate();
+    $request->session()->regenerateToken(); // Regenerate CSRF token
+
+    return redirect()->route('login')->with('success', 'Logged out successfully');
+}
     //
     public function showLoginForm(Request $request)
     {
-        $request->session()->flush();
         return view('auth.login');
     }
 
