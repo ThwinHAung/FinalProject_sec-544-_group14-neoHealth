@@ -4,16 +4,28 @@
 
 @section('content')
 <div class="mb-5 flex items-center space-x-4 justify-between">
-    <!-- Form input -->
+    <!-- Search Form -->
     <div class="flex-grow max-w-xs">
-        <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor Id</label>
-        <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "placeholder="Enter doctor id" required>
+        <form method="GET" action="{{ route('admin.doctor') }}" class="flex items-end space-x-2">
+            <div class="flex-grow">
+                <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search by Doctor ID or Name</label>
+                <input type="text" name="search" id="search" value="{{ request('search') }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Enter doctor ID or name">
+            </div>
+            <button type="submit"
+                class="px-4 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Search
+            </button>
+        </form>
     </div>
 
-    <!-- Buttons -->
-    <div class="flex space-x-4">
-        <button type="button" class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-        <button type="button" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Doctor</button>
+    <!-- Create Button -->
+    <div>
+        <button type="button" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+            class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Create Doctor
+        </button>
     </div>
 </div>
 
@@ -120,7 +132,18 @@
                 <td class="flex items-center px-6 py-4">
                     <form action="{{ route('admin.doctor.edit', $doctor->id) }}" method="GET" class="inline-block">
                         @csrf
-                        <button type="button" data-modal-target="edit-doctor-modal" data-modal-toggle="edit-doctor-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+                        <button type="button" 
+                        class="edit-button font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+                        data-id="{{ $doctor->id }}" 
+                        data-name="{{ $doctor->doctor_name }}" 
+                        data-phone="{{ $doctor->phone_number }}" 
+                        data-department="{{ $doctor->department }}" 
+                        data-specialty="{{ $doctor->specialty }}" 
+                        data-degree="{{ $doctor->degree }}" 
+                        data-modal-target="edit-doctor-modal" 
+                        data-modal-toggle="edit-doctor-modal">
+                        Edit
+                    </button>
                     </form>
                     <form action="{{ route('admin.doctor.remove', $doctor->id) }}" method="POST" class="inline-block">
                         @csrf
@@ -166,50 +189,54 @@
 
  <!-- edit dialogue -->
 <!-- Edit Modal for Doctor Profile -->
-@if(isset($doctor))
-<div id="edit-doctor-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="edit-doctor-modal" tabindex="-1" aria-hidden="true" 
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-4xl max-h-full">
-        <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-            <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Edit Doctor Profile
                 </h3>
-                <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-doctor-modal">
+                <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
+                    data-modal-hide="edit-doctor-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <!-- Modal body -->
+
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{ route('admin.doctor.update', $doctor->id) }}" method="POST">
+                <form class="space-y-4" action="" method="POST" id="edit-form">
                     @csrf
-                    @method('PUT')  <!-- Specify PUT request for updating -->
+                    @method('PUT')
+                    <input type="hidden" name="doctor_id" id="edit-doctor-id">
+                    
                     <div>
-                        <label for="full-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
-                        <input type="text" name="full-name" id="full-name" value="{{ $doctor->doctor_name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <label for="edit-full-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
+                        <input type="text" name="full-name" id="edit-full-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
-                        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                        <input type="tel" name="phone" id="phone" value="{{ $doctor->phone_number }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <label for="edit-phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                        <input type="tel" name="phone" id="edit-phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
-                        <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                        <input type="text" name="department" id="department" value="{{ $doctor->department }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <label for="edit-department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                        <input type="text" name="department" id="edit-department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
-                        <label for="speciality" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Speciality</label>
-                        <input type="text" name="speciality" id="speciality" value="{{ $doctor->specialty }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <label for="edit-specialty" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Specialty</label>
+                        <input type="text" name="specialty" id="edit-specialty" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
                     <div>
-                        <label for="degree" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Degree</label>
-                        <input type="text" name="degree" id="degree" value="{{ $doctor->degree }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        <label for="edit-degree" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Degree</label>
+                        <input type="text" name="degree" id="edit-degree" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                     </div>
+
                     <div class="flex justify-between">
-                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Update
+                        </button>
                     </div>
                 </form>
             </div>
@@ -217,6 +244,30 @@
     </div>
 </div>
 
-@endif
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get doctor details from button attributes
+                const doctorId = this.getAttribute('data-id');
+                const doctorName = this.getAttribute('data-name');
+                const doctorPhone = this.getAttribute('data-phone');
+                const doctorDepartment = this.getAttribute('data-department');
+                const doctorSpecialty = this.getAttribute('data-specialty');
+                const doctorDegree = this.getAttribute('data-degree');
 
+                // Set form values in modal
+                document.getElementById('edit-doctor-id').value = doctorId;
+                document.getElementById('edit-full-name').value = doctorName;
+                document.getElementById('edit-phone').value = doctorPhone;
+                document.getElementById('edit-department').value = doctorDepartment;
+                document.getElementById('edit-specialty').value = doctorSpecialty;
+                document.getElementById('edit-degree').value = doctorDegree;
+
+                // Set the correct form action dynamically
+                document.getElementById('edit-form').action = `/admin_dashboard/doctor_table/${doctorId}`;
+            });
+        });
+    });
+</script>
 @endsection
