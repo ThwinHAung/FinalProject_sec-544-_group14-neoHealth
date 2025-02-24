@@ -11,31 +11,25 @@
 
             <!-- Booking Form -->
             <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-                <form class="space-y-6">
-                    <!-- Speciality Dropdown -->
+                <form method="GET" action="{{ route('patient.getAvailableSlots') }}" class="space-y-6">
+                    <!-- Specialty Dropdown -->
                     <div>
-                        <label for="speciality" class="block text-sm font-medium text-gray-400 mb-2">Speciality</label>
-                        <select id="speciality"
+                        <label for="specialty" class="block text-sm font-medium text-gray-400 mb-2">Specialty</label>
+                        <select name="specialty" id="specialty"
                             class="block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option disabled selected>Select a Speciality</option>
-                            <option value="cardiology">Cardiology</option>
-                            <option value="dermatology">Dermatology</option>
-                            <option value="neurology">Neurology</option>
-                            <option value="orthopedics">Orthopedics</option>
-                            <option value="pediatrics">Pediatrics</option>
+                            <option disabled selected>Select a Specialty</option>
+                            @foreach($specialties as $specialty)
+                            <option value="{{ $specialty->specialty }}">{{ $specialty->specialty }}</option>
+                        @endforeach
                         </select>
                     </div>
 
                     <!-- Doctor Dropdown -->
                     <div>
                         <label for="doctor" class="block text-sm font-medium text-gray-400 mb-2">Doctor</label>
-                        <select id="doctor"
+                        <select name="doctor" id="doctor"
                             class="block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <option disabled selected>Select a Doctor</option>
-                            <option value="dr-smith">Dr. John Smith</option>
-                            <option value="dr-johnson">Dr. Emma Johnson</option>
-                            <option value="dr-scott">Dr. Michael Scott</option>
-                            <option value="dr-williams">Dr. Robert Williams</option>
                         </select>
                     </div>
 
@@ -51,7 +45,7 @@
                                         d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                 </svg>
                             </div>
-                            <input id="datepicker-actions" datepicker datepicker-buttons datepicker-autoselect-today
+                            <input name="date" id="datepicker-actions" datepicker datepicker-buttons datepicker-autoselect-today
                                 type="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Select date">
@@ -72,10 +66,10 @@
     </div>
 
 
-    <div id="results" class="mt-6 hidden   gap-4">
+    <div id="results" class="mt-6 hidden  gap-4">
         <!-- Card 1 -->
-        <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3">
-                <div>
+        <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3" id="timeSlotsContainer">
+                {{-- <div>
                     <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
                         10:00 AM - 10:30 AM
                     </button>
@@ -99,7 +93,7 @@
                     <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
                         02:30 PM - 03:00 PM
                     </button>
-                </div>   
+                </div>    --}}
         </div>
 
         <div class="flex justify-end">
@@ -134,10 +128,50 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-        document.getElementById("searchButton").addEventListener("click", function(e) {
-            e.preventDefault();
+      
+        $('#searchButton').click(function(event) {
+            event.preventDefault();
             const results = document.getElementById("results");
-            results.classList.remove("hidden"); // Show the cards
+            results.classList.remove("hidden"); 
+
+            let specialty = $('#specialty').val();
+            let doctor_id = $('#doctor').val();
+            let date = $('#datepicker-actions').val();
+
+            if (!specialty || !doctor_id || !date) {
+                alert("Please select all fields before searching.");
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('patient.getAvailableSlots') }}",
+                method: "GET",
+                data: {
+                    specialty: specialty,
+                    doctor_id: doctor_id,
+                    date: date
+                },
+                success: function(response) {
+                    $('#timeSlotsContainer').empty(); // Clear previous slots
+                    console.log("Available slots:", response);
+                    if (response.length === 0) {
+                        $('#timeSlotsContainer').html('<p class="text-gray-400">No available slots found.</p>');
+                    } else {
+                        response.forEach(slot => {
+                            let timeSlotHtml = `
+                                <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
+                                    ${slot.start_time} - ${slot.end_time}
+                                </button>
+                            `;
+                            $('#timeSlotsContainer').append(timeSlotHtml);
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.error("Error fetching slots:", error);
+                    alert("An error occurred while fetching available slots.");
+                }
+            });
         });
 
         $(document).ready(function () {
@@ -176,10 +210,29 @@
             // You can add additional booking confirmation logic here
         });
     });
-    document.getElementById('confirmButton').addEventListener('click', function() {
-    alert('Booking Confirmed');
-    window.location.reload();
-  });
+        document.getElementById('confirmButton').addEventListener('click', function() {
+        alert('Booking Confirmed');
+        window.location.reload();
+    });
+
+    $('#specialty').change(function () {
+        console.log('Specialty changed');
+    let specialty = $(this).val();
+
+    $.ajax({
+        url: "{{ route('get-doctors-by-specialty') }}",
+        method: 'GET',
+        data: { specialty },
+        success: function (response) {
+            $('#doctor').empty().append('<option disabled selected>Select a Doctor</option>');
+
+            response.forEach(doctor => {
+                $('#doctor').append(`<option value="${doctor.id}">${doctor.name}</option>`);
+            });
+        }
+    });
+});
+
 
     </script>
 

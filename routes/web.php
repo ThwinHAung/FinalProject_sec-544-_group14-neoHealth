@@ -8,8 +8,10 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Patient;
+use App\Http\Controllers\TimeSlotController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -53,11 +55,16 @@ Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboar
 Route::get('/patient_dashboard/booking',[DashboardController::class,'makeAppointment'])->name('patient.booking');
 Route::get('/patient_dashboard/prescription',[DashboardController::class,'showPrescription'])->name('patient.prescription');
 Route::get('/patient_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistory'])->name('patient.appointment_history');
+Route::get('/patient_dashboard/get-available-slots', [TimeSlotController::class, 'getAvailableSlots'])->name('patient.getAvailableSlots');
+Route::get('/get-doctors-by-specialty', [DashboardController::class, 'getDoctorsBySpecialty'])->name('get-doctors-by-specialty');
+
 
 //Doctor 
 Route::get('/doctor_dashboard',[DashboardController::class,'showDoctorDashboard'])->name('doctor.dashboard');
 Route::get('/doctor_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistoryAtDoctor'])->name('doctor.appointment_history');
 Route::get('/doctor_dashboard/working_schedule',[DashboardController::class,'CreateWorkingSchedule'])->name('doctor.working_schedule');
 Route::get('/doctor_dashboard/create_prescription',[DashboardController::class,'CreatePresctiption'])->name('doctor.create_prescription');
+Route::post('/timeslot/store', [TimeSlotController::class, 'store'])->name('timeslot.store');
+
 });
 

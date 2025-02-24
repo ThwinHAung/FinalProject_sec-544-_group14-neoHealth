@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
+use App\Models\TimeSlot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -23,12 +26,23 @@ class DashboardController extends Controller
         if (!session()->has('patient')) {
             return redirect()->route('login'); // Redirect to register if no session
         }
-    
         return view('patient.dashboard', ['patient' => session('patient')]);
-    
     }
     public function makeAppointment(){
-        return view('patient.booking');
+        $specialties = Doctor::select('specialty')->distinct()->get();
+        return view('patient.booking',compact('specialties'));
+    }
+
+    public function getDoctorsBySpecialty(Request $request)
+    {
+        $specialty = $request->specialty;
+
+        $doctors = Doctor::join('employees', 'doctors.employee_id', '=', 'employees.id')
+            ->where('doctors.specialty', $specialty)
+            ->select('doctors.id', 'employees.name')
+            ->get();
+
+        return response()->json($doctors);
     }
 
     public function showAppointmentHistory(){
@@ -48,7 +62,10 @@ class DashboardController extends Controller
     }
 
     public function CreateWorkingSchedule(){
-        return view('doctor.time_slot');
+    $doctor = session('doctor');
+    $doctorId = $doctor->id;
+    $timeSlots = DB::select('SELECT * FROM time_slots WHERE doctor_id = ?', [$doctorId]);
+    return view('doctor.time_slot', ['timeSlots' => $timeSlots]);
     }
 
     public function CreatePresctiption(){
