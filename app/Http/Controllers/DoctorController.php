@@ -153,7 +153,7 @@ class DoctorController extends Controller
             'full-name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'department' => 'required|string|max:255',
-            'speciality' => 'required|string|max:255',
+            'specialty' => 'required|string|max:255',
             'degree' => 'required|string|max:255',
         ]);
         try {
@@ -171,7 +171,7 @@ class DoctorController extends Controller
                     'name' => $validated['full-name'],
                     'degree' => $validated['degree'],
                     'department' => $validated['department'],  
-                    'specialty' => $validated['speciality'],
+                    'specialty' => $validated['specialty'],
                     'phone' => $validated['phone'],
                     'doctorId' => $doctorId
                 ]);
