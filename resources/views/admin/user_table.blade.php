@@ -5,88 +5,94 @@
 @section('content')
 
 <div class="mb-5 flex items-center space-x-4 justify-between">
-    <!-- Form input -->
+    <!-- Search Form -->
     <div class="flex-grow max-w-xs">
-        <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Patient Id</label>
-        <input type="text" id="base-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "placeholder="Enter patient id" required>
-    </div>
-
-    <!-- Buttons -->
-    <div class="flex space-x-4">
-        <button type="button" class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        <form method="GET" action="{{ route('admin.patient') }}" class="flex items-end space-x-2">
+            <div class="flex-grow">
+                <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search by Patient ID or Name</label>
+                <input type="text" name="search" id="search" value="{{ request('search') }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Enter patient ID or name">
+            </div>
+        </form>
     </div>
 </div>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="patient-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="p-4">
                     <div class="flex items-center">
                         <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-all-search" class="sr-only">checkbox</label>
                     </div>
                 </th>
-                <th scope="col" class="px-6 py-3">ID</th>
-                <th scope="col" class="px-6 py-3">Name</th>
-                <th scope="col" class="px-6 py-3">Age</th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="id"><strong>ID</strong></th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="name"><strong>Name</strong></th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="age"><strong>Age</strong></th>
                 <th scope="col" class="px-6 py-3">Email</th>
                 <th scope="col" class="px-6 py-3">Phone Number</th>
                 <th scope="col" class="px-6 py-3">Address</th>
                 <th scope="col" class="px-6 py-3">Emergency Address</th>
-                <th scope="col" class="px-6 py-3">Action</th>
             </tr>
         </thead>
         <tbody>
+            @if (isset($patients))
             @foreach ($patients as $patient)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                     <div class="flex items-center">
                         <input id="checkbox-table-search-{{ $patient->id }}" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-{{ $patient->id }}" class="sr-only">checkbox</label>
                     </div>
                 </td>
                 <td class="px-6 py-4">{{ $patient->id }}</td>
-                <td class="px-6 py-4">{{ $patient->name }}</td> 
+                <td class="px-6 py-4">{{ $patient->name }}</td>
                 <td class="px-6 py-4">{{ $patient->age }}</td>
                 <td class="px-6 py-4">{{ $patient->email }}</td>
                 <td class="px-6 py-4">{{ $patient->phone_number }}</td>
                 <td class="px-6 py-4">{{ $patient->address }}</td>
                 <td class="px-6 py-4">{{ $patient->emergency_address }}</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" data-modal-target="edit-doctor-modal" data-modal-toggle="edit-doctor-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    <form action="{{ route('admin.patient.remove', $patient->id) }}" method="POST" class="inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Remove</button>
-                    </form>
-                </td>
             </tr>
             @endforeach       
+            @endif
         </tbody>
     </table>
 </div>
 
-<div class="flex flex-col items-end p-8">
-    <!-- Help text -->
-    <span class="text-sm text-gray-700 dark:text-gray-400">
-        Showing <span class="font-semibold text-gray-900 dark:text-white">{{ ($page - 1) * $perPage + 1 }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ $page * $perPage > $totalPatients ? $totalPatients : $page * $perPage }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ $totalPatients }}</span> Entries
-    </span>
-    
-    <!-- Pagination Buttons -->
-    <div class="inline-flex mt-2 xs:mt-0">
-        @if ($page > 1)
-            <a href="{{ route('admin.user', ['page' => $page - 1]) }}" class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                Prev
-            </a>
-        @endif
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
-        @if ($page < $totalPages)
-            <a href="{{ route('admin.user', ['page' => $page + 1]) }}" class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                Next
-            </a>
-        @endif
-    </div>
-</div>
+    const comparer = function(idx, asc) {
+        return function(a, b) {
+            const v1 = getCellValue(asc ? a : b, idx);
+            const v2 = getCellValue(asc ? b : a, idx);
+            return isNaN(v1) || isNaN(v2) ? v1.localeCompare(v2) : v1 - v2;
+        };
+    };
+
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+        th.addEventListener('click', function() {
+            const table = th.closest('table');
+            Array.from(table.querySelectorAll('tbody > tr'))
+                .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                .forEach(tr => table.querySelector('tbody').appendChild(tr));
+        });
+    });
+
+    const searchInput = document.getElementById('search');
+    if(searchInput){
+        searchInput.addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#patient-table tbody tr');
+            rows.forEach(row => {
+                const id = row.children[1].innerText.toLowerCase();
+                const name = row.children[2].innerText.toLowerCase();
+                row.style.display = (id.includes(filter) || name.includes(filter)) ? '' : 'none';
+            });
+        });
+    }
+});
+</script>
 
 @endsection

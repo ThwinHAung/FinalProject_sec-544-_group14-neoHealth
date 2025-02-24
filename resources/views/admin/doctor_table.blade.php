@@ -1,3 +1,5 @@
+
+
 @extends('layouts.admin')
 
 @section('title', 'Doctor List')
@@ -13,10 +15,10 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Enter doctor ID or name">
             </div>
-            <button type="submit"
+            {{-- <button type="submit"
                 class="px-4 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Search
-            </button>
+            </button> --}}
         </form>
     </div>
 
@@ -29,6 +31,7 @@
     </div>
 </div>
 
+<!-- Modal for Creating Doctor (content remains unchanged) -->
 <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-4xl max-h-full">
         <!-- Modal content -->
@@ -91,9 +94,8 @@
     </div>
 </div>
 
-
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="doctor-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="p-4">
@@ -102,11 +104,11 @@
                         <label for="checkbox-all-search" class="sr-only">checkbox</label>
                     </div>
                 </th>
-                <th scope="col" class="px-6 py-3">ID</th>
-                <th scope="col" class="px-6 py-3">Full Name</th>
-                <th scope="col" class="px-6 py-3">Degree</th>
-                <th scope="col" class="px-6 py-3">Department</th>
-                <th scope="col" class="px-6 py-3">Specialty</th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="id"><strong>ID</strong></th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="doctor_name"><strong>Full Name</strong></th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="degree"><strong>Degree</strong></th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="department"><strong>Department</strong></th>
+                <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="specialty"><strong>Specialty</strong></th>
                 <th scope="col" class="px-6 py-3">Email</th>
                 <th scope="col" class="px-6 py-3">Phone Number</th>
                 <th scope="col" class="px-6 py-3">Action</th>
@@ -158,7 +160,6 @@
     </table>
 </div>
 
-
 <div class="flex flex-col items-end p-8">
     <!-- Help text -->
     @if(isset($page))
@@ -187,7 +188,6 @@
     </div>
 </div>
 
- <!-- edit dialogue -->
 <!-- Edit Modal for Doctor Profile -->
 <div id="edit-doctor-modal" tabindex="-1" aria-hidden="true" 
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -244,30 +244,65 @@
     </div>
 </div>
 
+<!-- Custom Script for Table Sorting and Search Filter -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('.edit-button').forEach(button => {
-            button.addEventListener('click', function() {
-                // Get doctor details from button attributes
-                const doctorId = this.getAttribute('data-id');
-                const doctorName = this.getAttribute('data-name');
-                const doctorPhone = this.getAttribute('data-phone');
-                const doctorDepartment = this.getAttribute('data-department');
-                const doctorSpecialty = this.getAttribute('data-specialty');
-                const doctorDegree = this.getAttribute('data-degree');
+document.addEventListener("DOMContentLoaded", function() {
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
-                // Set form values in modal
-                document.getElementById('edit-doctor-id').value = doctorId;
-                document.getElementById('edit-full-name').value = doctorName;
-                document.getElementById('edit-phone').value = doctorPhone;
-                document.getElementById('edit-department').value = doctorDepartment;
-                document.getElementById('edit-specialty').value = doctorSpecialty;
-                document.getElementById('edit-degree').value = doctorDegree;
+    const comparer = function(idx, asc) {
+        return function(a, b) {
+            const v1 = getCellValue(asc ? a : b, idx);
+            const v2 = getCellValue(asc ? b : a, idx);
+            // Use numeric comparison if possible
+            return isNaN(v1) || isNaN(v2) ? v1.localeCompare(v2) : v1 - v2;
+        };
+    };
 
-                // Set the correct form action dynamically
-                document.getElementById('edit-form').action = `/admin_dashboard/doctor_table/${doctorId}`;
-            });
+    // Enable sorting on headers with data-sort attribute
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+        th.addEventListener('click', function() {
+            const table = th.closest('table');
+            Array.from(table.querySelectorAll('tbody > tr'))
+                .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                .forEach(tr => table.querySelector('tbody').appendChild(tr) );
         });
     });
+
+    // Simple client-side search filter (optional, if you want additional filtering besides the form)
+    const searchInput = document.getElementById('search');
+    if(searchInput){
+        searchInput.addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#doctor-table tbody tr');
+            rows.forEach(row => {
+                const id = row.children[1].innerText.toLowerCase();
+                const name = row.children[2].innerText.toLowerCase();
+                row.style.display = (id.includes(filter) || name.includes(filter)) ? '' : 'none';
+            });
+        });
+    }
+
+    // Setup Edit Modal functionality (unchanged)
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const doctorId = this.getAttribute('data-id');
+            const doctorName = this.getAttribute('data-name');
+            const doctorPhone = this.getAttribute('data-phone');
+            const doctorDepartment = this.getAttribute('data-department');
+            const doctorSpecialty = this.getAttribute('data-specialty');
+            const doctorDegree = this.getAttribute('data-degree');
+
+            document.getElementById('edit-doctor-id').value = doctorId;
+            document.getElementById('edit-full-name').value = doctorName;
+            document.getElementById('edit-phone').value = doctorPhone;
+            document.getElementById('edit-department').value = doctorDepartment;
+            document.getElementById('edit-specialty').value = doctorSpecialty;
+            document.getElementById('edit-degree').value = doctorDegree;
+            document.getElementById('edit-form').action = `/admin_dashboard/doctor_table/${doctorId}`;
+        });
+    });
+});
 </script>
 @endsection
+
+
