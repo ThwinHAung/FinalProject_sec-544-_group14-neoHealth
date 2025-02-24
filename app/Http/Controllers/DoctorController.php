@@ -85,34 +85,54 @@ class DoctorController extends Controller
     public function show_doctor_table(Request $request)
     {
         $perPage = 10;
-    
         $page = $request->get('page', 1);
-    
+        $search = $request->input('search', ''); // Get search term from request
+        
         $offset = ($page - 1) * $perPage;
     
-        // Raw SQL to retrieve doctors data with pagination
-        $doctors = DB::select('
+        // Base SQL query with search capability
+        $sql = '
             SELECT d.id, e.name AS doctor_name, d.degree, d.department, d.specialty, d.email, d.phone_number
             FROM doctors d
             JOIN employees e ON e.id = d.employee_id
-            LIMIT :perPage OFFSET :offset', [
-            'perPage' => $perPage,
-            'offset' => $offset,
-        ]);
+        ';
     
-        // Get total count of doctors
-        $totalDoctors = DB::table('doctors')->count();
+        // Add WHERE clause if there's a search term
+        $bindings = [
+            'perPage' => $perPage,
+            'offset' => $offset
+        ];
+    
+        if (!empty($search)) {
+            $sql .= ' WHERE d.id LIKE :search OR e.name LIKE :searchName';
+            $bindings['search'] = "%{$search}%";
+            $bindings['searchName'] = "%{$search}%";
+        }
+    
+        $sql .= ' LIMIT :perPage OFFSET :offset';
+    
+        // Execute the query with search parameters
+        $doctors = DB::select($sql, $bindings);
+    
+        // Get total count with search filter
+        $countSql = 'SELECT COUNT(*) as total FROM doctors d JOIN employees e ON e.id = d.employee_id';
+        if (!empty($search)) {
+            $countSql .= ' WHERE d.id LIKE :search OR e.name LIKE :searchName';
+            $totalDoctors = DB::selectOne($countSql, [
+                'search' => "%{$search}%",
+                'searchName' => "%{$search}%"
+            ])->total;
+        } else {
+            $totalDoctors = DB::table('doctors')->count();
+        }
     
         $totalPages = ($totalDoctors > 0) ? ceil($totalDoctors / $perPage) : 1;
-
         $doctors = empty($doctors) ? [] : $doctors;
-
+    
         return view('admin.doctor_table', compact('doctors', 'page', 'totalPages', 'totalDoctors', 'perPage'));
-
     }
 
     public function edit($doctorId){
-
         $doctor = DB::select('
         SELECT d.id, e.name AS doctor_name, d.degree, d.department, d.specialty, d.phone_number
         FROM doctors d
