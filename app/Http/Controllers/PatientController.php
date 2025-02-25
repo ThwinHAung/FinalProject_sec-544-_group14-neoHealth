@@ -76,4 +76,70 @@ class PatientController extends Controller
             return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
         }
     }
+
+    public function profile()
+    {
+        $patient = session('patient');
+    
+        if (!$patient) {
+            return response()->json(['error' => 'Patient not authenticated'], 401);
+        }
+    
+        // Use raw SQL query to fetch patient details
+        $patientData = DB::select("
+            SELECT id, name, age, email, phone_number, address, emergency_address 
+            FROM patients 
+            WHERE id = :id", ['id' => $patient['id']]);
+    
+        if (empty($patientData)) {
+            return response()->json(['error' => 'Patient not found'], 404);
+        }
+        $patient = $patientData[0];
+        return response()->json([
+            'id' => $patient->id,
+            'name' => $patient->name,
+            'age' => $patient->age,
+            'email' => $patient->email,
+            'phone_number' => $patient->phone_number,
+            'address' => $patient->address,
+            'emergency_address' => $patient->emergency_address,
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $patient = session('patient');
+    
+        if (!$patient) {
+            return redirect()->route('patient.dashboard')->with('error', 'Patient not authenticated');
+        }
+    
+        // Validate request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_number' => 'nullable|string|max:15',
+            'address' => 'nullable|string',
+            'emergency_address' => 'nullable|string',
+            'age' => 'nullable|integer',
+        ]);
+    
+        // Update patient details using raw SQL
+        DB::update("
+            UPDATE patients 
+            SET email = ?, phone_number = ?, address = ?, emergency_address = ?, age = ?
+            WHERE id = ?", 
+            [
+                $validatedData['email'], 
+                $validatedData['phone_number'] ?? null, 
+                $validatedData['address'] ?? null, 
+                $validatedData['emergency_address'] ?? null,
+                $validatedData['age'] ?? null,
+                $patient['id']
+            ]
+        );
+    
+        return redirect()->route('patient.dashboard')->with('success', 'Profile updated successfully');
+    }
+    
 }

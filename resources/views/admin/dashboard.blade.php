@@ -18,21 +18,24 @@
 
     <!-- Example Content -->
     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Card 1 -->
-        <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Doctor</h4>
-            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">1,245</p>
-        </div>
-        <!-- Card 2 -->
-        <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Today Patient</h4>
-            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">52</p>
-        </div>
-        <!-- Card 3 -->
-        <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Today Appointment</h4>
-            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">12,628</p>
-        </div>
+<!-- Card 1: Total Doctors -->
+    <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
+        <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Doctors</h4>
+        <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">{{ $totalDoctors }}</p>
+    </div>
+
+    <!-- Card 2: Total Patients -->
+    <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
+        <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Patients</h4>
+        <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">{{ $totalPatients }}</p>
+    </div>
+
+    <!-- Card 3: Today's Appointments -->
+    <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
+        <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Today's Appointments</h4>
+        <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">{{ $totalAppointmentsToday }}</p>
+    </div>
+
     </div>
     <div class="container mx-auto p-4">
         <div class="bg-white shadow-md rounded-lg p-6">
