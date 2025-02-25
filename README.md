@@ -1,5 +1,8 @@
-# Welcome to our neohealth project
+# Welcome to our neohealth project (Group 14 Section 544, CSX-3006 final project)
+
+#Intro for those who do not familar with laravel frameworks, main function are under controller directory , database files are under database/migrations directory , routes are at web.php 
 #Steps to Install and Test the Laravel Project
+
 
 ### **1. Install PHP & Composer**
 - Ensure PHP and Composer are installed on the system:
