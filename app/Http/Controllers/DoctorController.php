@@ -262,5 +262,62 @@ class DoctorController extends Controller
 
         return redirect()->route('doctor.dashboard')->with('success', 'Profile updated successfully');
     }
+
+    public function updateStatus($id, Request $request)
+    {
+        // Get the notes from the request
+        // $notes = $request->input('notes');
+        $validatedData = $request->validate([
+            'notes' => 'required',
+        ]);
+        $notes = $validatedData['notes'];
+        $updated = DB::table('appointments')
+            ->where('id', $id)
+            ->update([
+                'status' => 'Completed',
+                'note' => $notes // Update the notes field
+            ]);
+    
+        return response()->json(['success' => $updated]);
+    }
+    
+
+    public function cancelAppointment($id)
+    {
+        
+        $deleted = DB::table('appointments')->where('id', $id)->delete();
+    
+        if ($deleted) {
+            return response()->json(['success' => true]);
+        }
+    
+        return response()->json(['success' => false], 404);  
+    }
+    
+    public function showAppointmentDetails($id)
+{
+    $appointment = DB::table('appointments')
+        ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+        ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+        ->select(
+            'appointments.id',
+            'patients.name as patient_name',
+            'appointments.description',
+            'time_slots.date',
+            'time_slots.start_time',
+            'appointments.status',
+            'appointments.note'
+        )
+        ->where('appointments.id', $id)
+        ->first();
+
+    if ($appointment) {
+        return response()->json(['success' => true, 'data' => $appointment]);
+    } else {
+        return response()->json(['success' => false]);
+    }
+}
+
+
     
 }

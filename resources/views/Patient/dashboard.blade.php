@@ -305,28 +305,29 @@ let selectedSpecialty, selectedDoctorId, selectedFormattedDate, selectedTimeSlot
     });
 
     function cancelAppointment(event) {
-        event.preventDefault(); // Prevent link default behavior
-        let appointmentId = event.target.dataset.appointment_id; // Get the appointment ID
-        console.log(appointmentId);
-        if (!confirm('Are you sure you want to cancel this appointment?')) {
-            return; // If user cancels, stop further execution
-        }
+    event.preventDefault(); // Prevent link default behavior
+    let appointmentId = event.target.dataset.appointment_id; // Get the appointment ID
+    console.log(appointmentId);
+    if (!confirm('Are you sure you want to cancel this appointment?')) {
+        return; // If user cancels, stop further execution
+    }
 
-        // Send DELETE request to delete the appointment
-        fetch(`/appointments/${appointmentId}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json()) // Parse the JSON response
-        .then(data => {
-            alert(data.message); // Show the success message
-            location.reload(); // Reload the page to reflect the changes
-        })
-        .catch(error => console.error('Error:', error)); // Handle errors
-    };
+    // Send PUT request to update the status of the appointment
+    fetch(`/appointments/${appointmentId}/cancel`, {
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        alert(data.message); // Show the success message
+        location.reload(); // Reload the page to reflect the changes
+    })
+    .catch(error => console.error('Error:', error)); // Handle errors
+};
+
 </script>
     
 @endsection

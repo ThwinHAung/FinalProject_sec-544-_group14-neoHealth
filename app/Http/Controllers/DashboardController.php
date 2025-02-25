@@ -55,10 +55,8 @@ class DashboardController extends Controller
                 'appointments.status'
             )
             ->where('appointments.patient_id', $patient_id)
+            ->where('appointments.status', 'booked')
             ->get();
-        
-
-
         return view('patient.dashboard', ['patient' => session('patient')],compact('appointments'));
     }
     public function makeAppointment(){
@@ -79,11 +77,85 @@ class DashboardController extends Controller
     }
 
     public function showAppointmentHistory(){
-        return view('patient.booking_history');
+        if (!session()->has('patient')) {
+            return redirect()->route('login'); 
+        }
+        $patient_id = session('patient')->id;
+    
+        $appointments = DB::table('appointments')
+            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+            ->join('employees', 'doctors.employee_id', '=', 'employees.id') 
+            ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+            ->select(
+                'appointments.id',
+                'doctors.id as doctor_id',
+                'doctors.specialty',
+                'employees.name as doctor_name', 
+                'appointments.created_at as appointment_date',
+                'time_slots.date as time_slot_date',
+                'time_slots.start_time',
+                'appointments.description',
+                'appointments.time_slot_id',
+                'appointments.status'
+            )
+            ->where('appointments.patient_id', $patient_id)
+            ->where('appointments.status', '!=', 'booked')
+            ->get();
+
+        return view('patient.booking_history',['patient' => session('patient')],compact('appointments'));
     }
     public function showPrescription(){
-        return view('patient.prescription');
+
+        $patient_id = session('patient')->id;
+        $appointments = DB::table('appointments')
+    ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+    ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
+    ->select(
+        'appointments.id',
+        'appointments.status',
+        'appointments.created_at as appointment_date',
+        'appointments.time_slot_id',
+        'appointments.description',
+        'medicine_prescriptions.medicine_name',
+        'medicine_prescriptions.dosage',
+        'medicine_prescriptions.description as prescriptions',
+        'medicine_prescriptions.note',
+        'medicine_prescriptions.start_date',
+        'medicine_prescriptions.end_date'
+
+    )
+    ->where('appointments.patient_id', $patient_id)
+    ->get();
+        return view('patient.prescription',compact('appointments'));
     }
+
+    public function prescriptionDetail($id){
+        $appointment = DB::table('appointments')
+    ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+    ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
+    ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')  // Join with doctors table
+    ->join('employees', 'doctors.employee_id', '=', 'employees.id') // Join with employees table for the doctor's name
+    ->select(
+        'appointments.id',
+        'appointments.status',
+        'appointments.created_at as appointment_date',
+        'appointments.time_slot_id',
+        'appointments.description',
+        'medicine_prescriptions.medicine_name',
+        'medicine_prescriptions.dosage',
+        'medicine_prescriptions.description as prescriptions',
+        'medicine_prescriptions.note',
+        'medicine_prescriptions.start_date',
+        'medicine_prescriptions.end_date',
+        'employees.name as doctor_name'  // Get doctor's name from the employees table
+    )
+    ->where('appointments.id', $id)
+    ->first();
+
+        return response()->json($appointment);
+    }
+
+
 
     //Doctor
     public function showDoctorDashboard(){
@@ -119,8 +191,31 @@ class DashboardController extends Controller
     }
 
     public function showAppointmentHistoryAtDoctor(){
-        return view('doctor.booking_history');
+
+        $doctor_id = session('doctor')->id;
+        $appointments = DB::table('appointments')
+        ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+        ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+        ->join('employees', 'doctors.employee_id', '=', 'employees.id') 
+        ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+        ->select(
+            'appointments.id',
+            'employees.name as doctor_name',
+            'time_slots.date as appointment_date',
+            'patients.name as patient_name',
+            'time_slots.start_time',
+            'appointments.description',
+            'appointments.status'
+        )
+        ->where('doctors.id', $doctor_id)
+        ->get();
+
+    return view('doctor.booking_history', compact('appointments'));
+
     }
+
+
+
 
     public function CreateWorkingSchedule(){
     $doctor = session('doctor');
