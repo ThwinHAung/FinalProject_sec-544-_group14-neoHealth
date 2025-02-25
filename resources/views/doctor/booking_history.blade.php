@@ -62,7 +62,7 @@
                 <td class="px-6 py-4">{{ $appointment->description }}</td>
                 <td class="px-6 py-4">{{ $appointment->status }}</td>
                 <td class="px-6 py-4 flex items-center">
-                    @if ($appointment->status !== 'Completed')
+                    @if ($appointment->status == 'Booked')
                         <a href="#" class="text-green-600 hover:underline ms-3"
                             onclick="updateStatus({{ $appointment->id }})">
                             Update
@@ -71,11 +71,17 @@
                         onclick="cancelAppointment({{ $appointment->id }})">
                         Cancel
                         </a>
-                    @else
-                        <a href="#"
+                    @elseif ($appointment->status === 'Completed')
+                    <a href="#"
                             class="text-blue-600 hover:underline"
                             onclick="viewAppointmentDetails({{ $appointment->id }})"> 
                             View Details
+                        </a>
+
+                    @else
+                        <a href="#" class="text-red-600 hover:underline ms-3"
+                        onclick="cancelAppointment({{ $appointment->id }})">
+                        Cancel
                         </a>
                     @endif
                 </td>
@@ -216,7 +222,7 @@
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4">
                 <p>Please enter notes for patient</p>
-                <textarea id="appointment_notes" class="w-full h-32 p-2 border border-gray-300 rounded" placeholder="Enter notes here..."></textarea>
+                <textarea id="appointment_Notes" class="w-full h-32 p-2 border border-gray-300 rounded" placeholder="Enter notes here..."></textarea>
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -267,7 +273,7 @@ function closeModal() {
 
 
 function submitUpdateStatus() {
-    const notes = document.getElementById("appointment_notes").value;
+    const notes = document.getElementById("appointment_Notes").value;
     console.log("Notes:", notes);
     // Send the update request with the notes
     $.ajax({
