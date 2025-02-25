@@ -62,12 +62,15 @@ Route::put('/patient/update-profile', [PatientController::class, 'updateProfile'
 Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboard'])->name('patient.dashboard');
 Route::get('/patient_dashboard/booking',[DashboardController::class,'makeAppointment'])->name('patient.booking');
 Route::get('/patient_dashboard/prescription',[DashboardController::class,'showPrescription'])->name('patient.prescription');
+Route::get('/patient_dashboard/prescription/{id}',[DashboardController::class,'prescriptionDetail'])->name('patient.prescriptionDetail');
 Route::get('/patient_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistory'])->name('patient.appointment_history');
 Route::get('/patient_dashboard/get-available-slots', [TimeSlotController::class, 'getAvailableSlots'])->name('patient.getAvailableSlots');
 Route::get('/get-doctors-by-specialty', [DashboardController::class, 'getDoctorsBySpecialty'])->name('get-doctors-by-specialty');
 Route::post('/patient/book-appointment', [TimeSlotController::class, 'bookAppointment'])->name('patient.bookAppointment');
 Route::put('/patient/book-appointment', [TimeSlotController::class, 'changeAppointment'])->name('patient.bookAppointment');
-Route::delete('/appointments/{id}', [TimeSlotController::class, 'destroy'])->name('patient.cancelAppointment');
+// Route::get('/patient/bookinghistory', [TimeSlotController::class, 'bookingHistory'])->name('patient.bookingHistory');
+Route::put('/appointments/{id}/cancel', [TimeSlotController::class, 'cancel'])->name('patient.cancelAppointment');
+
 
 
 //Doctor 
@@ -80,6 +83,13 @@ Route::get('/doctor_dashboard/working_schedule',[DashboardController::class,'Cre
 Route::get('/doctor_dashboard/create_prescription',[Prescription::class,'CreatePrescription'])->name('doctor.prescription');
 Route::post('/doctor_dashboard/store_prescription', [Prescription::class, 'storePrescription'])->name('doctor.store_prescription');
 Route::post('/timeslot/store', [TimeSlotController::class, 'store'])->name('timeslot.store');
+Route::post('/appointments/{id}/update-status', [DoctorController::class, 'updateStatus'])->name('doctor.updateStatus');
+Route::delete('/appointments/{id}/cancel', [DoctorController::class, 'cancelAppointment'])
+    ->name('doctor.cancelAppointment');
+Route::get('/appointments/{id}', [DoctorController::class, 'showAppointmentDetails']);
+
+
+
 
 });
 

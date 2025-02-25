@@ -34,67 +34,60 @@
 
 <div class="mt-6 grid grid-cols-3 gap-4 w-full">
     <!-- Card 1 -->
-    <div class="flex items-center gap-4">
+    @foreach ($appointments as $appointment)
         <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
-            <h3 class="text-lg font-bold text-white">Paracetamol</h3>
-            <p class="text-gray-400">Description: This is for fever.</p>
-            <p class="text-gray-400">Time: 02/19/2025 | 11:30 A.M</p>
-        <a 
-            href="javascript:void(0);" 
-            class="text-blue-400 no-underline hover:underline hover:text-blue-500 text-l font-bold"
-            onclick="openModal()">
-            View Details
-        </a>
-        </div>
-    </div>
-
-    <div class="flex items-center gap-4">
-        <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
-            <h3 class="text-lg font-bold text-white">Paracetamol</h3>
-            <p class="text-gray-400">Description: This is for fever.</p>
-            <p class="text-gray-400">Time: 02/19/2025 | 11:30 A.M</p>
+            <h3 class="text-lg font-bold text-white">{{ $appointment->medicine_name }}</h3>
+            <p class="text-gray-400">Description: {{ $appointment->prescriptions }}</p>
+            {{-- <p class="text-gray-400">Time: {{ \Carbon\Carbon::parse($appointment->start_date)->format('m/d/Y | h:i A') }}</p> --}}
             <a 
             href="javascript:void(0);" 
             class="text-blue-400 no-underline hover:underline hover:text-blue-500 text-l font-bold"
-            onclick="openModal()">
+            onclick="openModal({{ $appointment->id }})">
             View Details
         </a>
+        
         </div>
-       
-    </div>
+    @endforeach
+
     
 </div>
 
 
 <!-- Modal -->
+<!-- Modal -->
 <div id="detailsModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-1/3 p-6 relative space-y-2">
         <h2 class="text-lg font-bold mb-4">Prescription Details</h2>
-        <p><strong>Doctor Name:</strong> Dr. John Smith</p>
-        <p><strong>Appointment Date:</strong> 02/19/2025</p>
-        <p><strong>Dosage:</strong> 500mg twice a day</p>
-        <p><strong>Date Range:</strong> 02/19/2025 - 02/25/2025</p>
-        <p><strong>Doctor's Note:</strong> Ensure proper rest and hydration.</p>
-        
-        <!-- Modal Buttons -->
-        <div class="mt-6 flex justify-end gap-4">
-            <button 
-                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none"
-                onclick="closeModal()">
-                Close
-            </button>
-            <button 
-                class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-500 focus:outline-none">
-                Contact Doctor
-            </button>
-        </div>
+        <p class="doctor-name"><strong>Doctor Name:</strong> </p>
+        <p class="appointment-date"><strong>Appointment Date:</strong> </p>
+        <p class="dosage"><strong>Dosage:</strong> </p>
+        <p class="date-range"><strong>Date Range:</strong> </p>
+        <p class="doctor-note"><strong>Doctor's Note:</strong> </p>
+        <button class="absolute top-2 right-2 p-2 text-gray-500" onclick="closeModal()">X</button>
     </div>
 </div>
 
+
 <!-- JavaScript -->
 <script>
-    function openModal() {
+    function openModal(id) {
+        console.log(id);
         document.getElementById('detailsModal').classList.remove('hidden');
+
+        fetch(`/patient_dashboard/prescription/${id}`)
+        .then(response => response.json())  
+        .then(data => {
+            console.log(data);
+            // Update modal content with the fetched data
+            document.querySelector('#detailsModal .doctor-name').textContent = `Doctor Name: ${data.doctor_name}`;
+            document.querySelector('#detailsModal .appointment-date').textContent = `Appointment Date: ${data.appointment_date}`;
+            document.querySelector('#detailsModal .dosage').textContent = `Dosage: ${data.dosage}`;
+            document.querySelector('#detailsModal .date-range').textContent = `Date Range: ${data.start_date} - ${data.end_date}`;
+            document.querySelector('#detailsModal .doctor-note').textContent = `Doctor's Note: ${data.note}`;
+        })
+        .catch(error => console.error('Error fetching prescription details:', error));
+
+
     }
     function closeModal() {
         document.getElementById('detailsModal').classList.add('hidden');

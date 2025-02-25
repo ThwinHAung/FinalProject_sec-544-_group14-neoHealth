@@ -129,12 +129,22 @@ class TimeSlotController extends Controller
         return response()->json($timeSlots);
     }
 
-    public function destroy($id)
-    {
-        DB::delete("DELETE FROM appointments WHERE id = ?", [$id]);
-        // Return success response
-        return response()->json(['message' => 'Appointment canceled successfully']);
+    public function cancel($id)
+{
+    // Update the status of the appointment to 'Cancelled'
+    $updated = DB::table('appointments')
+        ->where('id', $id)
+        ->update(['status' => 'Cancelled']);
+
+    if ($updated) {
+        return response()->json(['message' => 'Appointment cancelled successfully']);
+    } else {
+        return response()->json(['message' => 'Failed to cancel appointment'], 400);
     }
+}
+
+
+
 
     
 }

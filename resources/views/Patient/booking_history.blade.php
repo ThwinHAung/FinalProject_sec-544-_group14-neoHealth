@@ -35,9 +35,6 @@
     </div>
 </div>
 
-
-
-
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -59,61 +56,30 @@
         </thead>
         <tbody>
             <!-- Sample Appointment Data 1 -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">1</td>
-                <td class="px-6 py-4">Dr. John Smith</td>
-                <td class="px-6 py-4">Cardiology</td>
-                <td class="px-6 py-4">2025-02-05</td>
-                <td class="px-6 py-4">10:00 AM</td>
-                <td class="px-6 py-4">Scheduled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="viewDetailsBtn font-medium text-blue-600 dark:text-blue-500 hover:underline" data-doctor="Dr. John Smith" data-specialty="Cardiology" data-date="2025-02-05" data-time="10:00 AM" data-status="Scheduled" data-meds="Medication A, Medication B">View Details</a>
-                </td>
-            </tr>
-            
-            <!-- Sample Appointment Data 2 -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-2" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-2" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">Dr. Emma Johnson</td>
-                <td class="px-6 py-4">Dermatology</td>
-                <td class="px-6 py-4">2025-02-06</td>
-                <td class="px-6 py-4">02:00 PM</td>
-                <td class="px-6 py-4">Completed</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="viewDetailsBtn font-medium text-blue-600 dark:text-blue-500 hover:underline" data-doctor="Dr. Emma Johnson" data-specialty="Dermatology" data-date="2025-02-06" data-time="02:00 PM" data-status="Completed" data-meds="Medication C, Medication D">View Details</a>
-                </td>
-            </tr>
-            
-            <!-- Sample Appointment Data 3 -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">3</td>
-                <td class="px-6 py-4">Dr. Robert Williams</td>
-                <td class="px-6 py-4">Orthopedics</td>
-                <td class="px-6 py-4">2025-02-07</td>
-                <td class="px-6 py-4">09:30 AM</td>
-                <td class="px-6 py-4">Canceled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="viewDetailsBtn font-medium text-blue-600 dark:text-blue-500 hover:underline" data-doctor="Dr. Robert Williams" data-specialty="Orthopedics" data-date="2025-02-07" data-time="09:30 AM" data-status="Canceled" data-meds="Medication E, Medication F">View Details</a>
-                </td>
-            </tr>
+            @foreach($appointments as $appointment)
+<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+    <td class="w-4 p-4">
+        <div class="flex items-center">
+            <input id="checkbox-table-search-{{ $appointment->id }}" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="checkbox-table-search-{{ $appointment->id }}" class="sr-only">checkbox</label>
+        </div>
+    </td>
+    <td class="px-6 py-4">{{ $appointment->id }}</td>
+    <td class="px-6 py-4">{{ $appointment->doctor_name }}</td>
+    <td class="px-6 py-4">{{ $appointment->specialty }}</td>
+    <td class="px-6 py-4">{{ $appointment->appointment_date }}</td>
+    <td class="px-6 py-4">{{ $appointment->start_time }}</td>
+    <td class="px-6 py-4">{{ $appointment->status }}</td>
+    @if($appointment->status === 'Completed')
+    <td class="flex items-center px-6 py-4">
+        <a href="#" class="viewDetailsBtn font-medium text-blue-600 dark:text-blue-500 hover:underline" onclick="viewDetails({{ $appointment->id }})"> 
+        View Details</a>
+    </td>
+    @else
+    <td></td>
+    @endif
+    </tr>
+    @endforeach   
         </tbody>
     </table>
     
@@ -175,6 +141,42 @@
     </div>
 </div>
 
+<div id="appointment-detail-modal" tabindex="-1" aria-hidden="true" class="modal hidden fixed inset-0 z-50 flex justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Appointment Details
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="appointment-detail-modal" onclick="closeModal()">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only" onclick="closeModal()">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+                <div class="space-y-2">
+                    <p><strong>Appointment ID:</strong> <span id="appointment-id"></span></p>
+                    <p><strong>Patient Name:</strong> <span id="patient_name"></span></p>
+                    <p><strong>Description:</strong> <span id="appointment_description"></span></p>
+                    <p><strong>Appointment Date:</strong> <span id="appointment-date"></span></p>
+                    <p><strong>Appointment Time:</strong> <span id="appointment-time"></span></p>
+                    <p><strong>Status:</strong> <span id="appointment-status"></span></p>
+                    <p><strong>Notes:</strong> <span id="appointment_notes"></span></p>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button data-modal-hide="appointment-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -228,6 +230,45 @@
             modal.classList.add('hidden');
         }
     });
+
+    function viewDetails(appointmentId){
+        $.ajax({
+        url: `/appointments/${appointmentId}`,  
+        method: 'GET',
+        success: function(response) {
+            if (response.success) {
+                console.log(response.data.patient_name)
+                // Populate modal with the fetched appointment data
+                $('#appointment-id').text(response.data.id);
+                $('#patient_name').text(response.data.patient_name);
+                $('#appointment_description').text(response.data.description);
+                $('#appointment-date').text(response.data.date);
+                $('#appointment-time').text(response.data.start_time);
+                $('#appointment-status').text(response.data.status);
+                $('#appointment_notes').text(response.data.note);
+
+                // Show the modal
+                document.getElementById('appointment-detail-modal').classList.remove('hidden');
+            } else {
+                alert("Failed to load appointment details.");
+            }
+        },
+        error: function(error) {
+            console.log("Error:", error);
+            alert("An error occurred while fetching appointment details.");
+        }
+    });
+    }
+
+    function closeModal() {
+    console.log("Closing modal");
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        modal.classList.add('hidden');
+    });
+}
+
+
   </script>
 
 @endsection
