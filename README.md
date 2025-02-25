@@ -51,6 +51,6 @@
   ```bash
   php artisan serve
   npm run dev
-### if any incovenient happens feel free to ask me htoohtoo.mdy.mmr@gmail.com or u6612109@au.edu (microsoft teams) and we will also provide by exporting our mysql database 
+### if any incovenient happens feel free to ask me htoohtoo.mdy.mmr@gmail.com or u6612109@au.edu (microsoft teams)
 
 
