@@ -100,26 +100,72 @@ class TimeSlotController extends Controller
             ]
         );
 
+        DB::update(
+            "UPDATE time_slots SET status = ? WHERE id = ?",
+            ['Booked', $validated['time_slot_id']]
+        );
+
         return response()->json(['success' => true, $patient_id]);
     }
 
     public function changeAppointment(Request $request)
     {
+        // Validate the request data
+        $validated = $request->validate([
+            'appointment_id' => 'required|exists:appointments,id',
+            'time_slot_id' => 'required|exists:time_slots,id',
+        ]);
+    
         $new_time_slot_id = $request->time_slot_id;
         $appointment_id = $request->appointment_id;
         $description = $request->description;
-        // Validate the request data
-        $validated = $request->validate([
-            'appointment_id' => 'required',
-            'time_slot_id' => 'required|exists:time_slots,id',
-        ]);
-
-        DB::update(
-            "UPDATE appointments SET time_slot_id = ?, description = ? ,updated_at = NOW() WHERE id = ?",
-            [$new_time_slot_id, $description, $appointment_id]
-        );
-
-        return response()->json(data: ['success' => true]);
+    
+        DB::beginTransaction();
+        
+        try {
+            // Get the current time slot ID from the appointment
+            $current_appointment = DB::selectOne(
+                "SELECT time_slot_id FROM appointments WHERE id = ?",
+                [$appointment_id]
+            );
+            
+            if (!$current_appointment) {
+                throw new \Exception('Appointment not found');
+            }
+            
+            $old_time_slot_id = $current_appointment->time_slot_id;
+    
+            // Update the appointment with new time slot and description
+            DB::update(
+                "UPDATE appointments SET time_slot_id = ?, description = ?, updated_at = NOW() WHERE id = ?",
+                [$new_time_slot_id, $description, $appointment_id]
+            );
+    
+            // Update the new time slot to Booked
+            DB::update(
+                "UPDATE time_slots SET status = ? WHERE id = ?",
+                ['Booked', $new_time_slot_id]
+            );
+    
+            // Update the old time slot to Available (if it's different from the new one)
+            if ($old_time_slot_id != $new_time_slot_id) {
+                DB::update(
+                    "UPDATE time_slots SET status = ? WHERE id = ?",
+                    ['Available', $old_time_slot_id]
+                );
+            }
+    
+            DB::commit();
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to change appointment: ' . $e->getMessage()
+            ], 500);
+        }
     }
     
 
@@ -130,18 +176,50 @@ class TimeSlotController extends Controller
     }
 
     public function cancel($id)
-{
-    // Update the status of the appointment to 'Cancelled'
-    $updated = DB::table('appointments')
-        ->where('id', $id)
-        ->update(['status' => 'Cancelled']);
-
-    if ($updated) {
-        return response()->json(['message' => 'Appointment cancelled successfully']);
-    } else {
-        return response()->json(['message' => 'Failed to cancel appointment'], 400);
+    {
+        DB::beginTransaction();
+        
+        try {
+            // Get the appointment with its time slot ID
+            $appointment = DB::table('appointments')
+                ->where('id', $id)
+                ->first();
+                
+            if (!$appointment) {
+                throw new \Exception('Appointment not found');
+            }
+    
+            // Update the appointment status to Cancelled
+            $updated = DB::table('appointments')
+                ->where('id', $id)
+                ->update([
+                    'status' => 'Cancelled',
+                    'updated_at' => now()
+                ]);
+    
+            if ($updated) {
+                // Update the time slot status to Available
+                DB::table('time_slots')
+                    ->where('id', $appointment->time_slot_id)
+                    ->update([
+                        'status' => 'Available',
+                        'updated_at' => now()
+                    ]);
+    
+                DB::commit();
+                
+                return response()->json(['message' => 'Appointment cancelled successfully']);
+            } else {
+                throw new \Exception('Failed to update appointment status');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            return response()->json([
+                'message' => 'Failed to cancel appointment: ' . $e->getMessage()
+            ], 400);
+        }
     }
-}
 
 
 

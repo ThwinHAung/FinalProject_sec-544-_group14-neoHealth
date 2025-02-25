@@ -108,7 +108,6 @@
                           <td class="px-6 py-4">{{ $slot->start_time }}</td> <!-- Start Time -->
                           <td class="px-6 py-4">{{ $slot->end_time }}</td> <!-- End Time -->
                           <td class="flex items-center px-6 py-4">
-                              <a href="" class="font-medium text-blue-600 hover:underline">Edit</a>
                               <a href="" class="font-medium text-red-600 hover:underline ms-3">Delete</a>
                           </td>
                       </tr>

@@ -63,25 +63,22 @@
                 <td class="px-6 py-4">{{ $appointment->status }}</td>
                 <td class="px-6 py-4 flex items-center">
                     @if ($appointment->status == 'Booked')
+                        <a href="#" class="text-blue-600 hover:underline ms-3" 
+                           onclick="showRescheduleModal(event)">
+                            Reschedule
+                        </a>
+                        <a href="#" class="text-red-600 hover:underline ms-3"
+                           onclick="cancelAppointment({{ $appointment->id }})">
+                            Cancel
+                        </a>
                         <a href="#" class="text-green-600 hover:underline ms-3"
-                            onclick="updateStatus({{ $appointment->id }})">
+                           onclick="updateStatus({{ $appointment->id }})">
                             Update
                         </a>
-                        <a href="#" class="text-red-600 hover:underline ms-3"
-                        onclick="cancelAppointment({{ $appointment->id }})">
-                        Cancel
-                        </a>
-                    @elseif ($appointment->status === 'Completed')
-                    <a href="#"
-                            class="text-blue-600 hover:underline"
-                            onclick="viewAppointmentDetails({{ $appointment->id }})"> 
+                    @elseif ($appointment->status == 'Cancelled' || $appointment->status == 'Completed')
+                        <a href="#" class="text-blue-600 hover:underline ms-3"
+                           onclick="viewAppointmentDetails({{ $appointment->id }})">
                             View Details
-                        </a>
-
-                    @else
-                        <a href="#" class="text-red-600 hover:underline ms-3"
-                        onclick="cancelAppointment({{ $appointment->id }})">
-                        Cancel
                         </a>
                     @endif
                 </td>

@@ -18,15 +18,27 @@ class DashboardController extends Controller
         $totalPatients = DB::select("SELECT COUNT(*) as total FROM patients")[0]->total;
 
         // Get total appointments for today
-        $today = Carbon::now()->toDateString();
+        $today = Carbon::now('Asia/Bangkok')->toDateString();
         $totalAppointmentsToday = DB::select("SELECT COUNT(*) as total FROM appointments WHERE DATE(created_at) = ?", [$today])[0]->total;
 
-        return view('admin.dashboard', compact('totalDoctors', 'totalPatients', 'totalAppointmentsToday'));
+        $appointmentsPerMonth = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $startOfMonth = Carbon::now()->month($i)->startOfMonth()->toDateString();
+            $endOfMonth = Carbon::now()->month($i)->endOfMonth()->toDateString();
+    
+            $appointmentsPerMonth[] = DB::select("
+                SELECT COUNT(*) as total 
+                FROM appointments 
+                WHERE DATE(created_at) BETWEEN ? AND ?", 
+                [$startOfMonth, $endOfMonth]
+            )[0]->total;
+        }
+
+        return view('admin.dashboard', compact('totalDoctors', 'totalPatients', 'totalAppointmentsToday','appointmentsPerMonth'));
     }
     public function appointment_table(){
         return view('admin.appointment_table');
     }
-
     //Patient
     public function showPatientDashboard(){
         if (!session()->has('patient')) {
@@ -151,8 +163,6 @@ class DashboardController extends Controller
         return response()->json($appointment);
     }
 
-
-
     //Doctor
     public function showDoctorDashboard(){
         if (!session()->has('doctor')) {
@@ -163,7 +173,8 @@ class DashboardController extends Controller
         $doctorId = session('doctor')->id;
 
         // Get today's date and the first & last date of the current month
-        $today = Carbon::now()->toDateString();
+        $today = Carbon::now('Asia/Bangkok')->toDateString();
+
         $firstDayOfMonth = Carbon::now()->startOfMonth()->toDateString();
         $lastDayOfMonth = Carbon::now()->endOfMonth()->toDateString();
 
@@ -183,7 +194,20 @@ class DashboardController extends Controller
             [$doctorId, $firstDayOfMonth, $lastDayOfMonth]
         )[0]->total;
 
-        return view('doctor.dashboard', compact('totalPatientsDaily', 'totalPatientsMonthly'));
+        $appointmentsPerMonth = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $startOfMonth = Carbon::now()->month($i)->startOfMonth()->toDateString();
+            $endOfMonth = Carbon::now()->month($i)->endOfMonth()->toDateString();
+    
+            $appointmentsPerMonth[] = DB::select("
+                SELECT COUNT(*) as total 
+                FROM appointments 
+                WHERE doctor_id = ? AND DATE(created_at) BETWEEN ? AND ?", 
+                [$doctorId, $startOfMonth, $endOfMonth]
+            )[0]->total;
+        }
+        
+        return view('doctor.dashboard', compact('totalPatientsDaily', 'totalPatientsMonthly','appointmentsPerMonth'));
     }
 
     public function showAppointmentHistoryAtDoctor(){
@@ -209,9 +233,6 @@ class DashboardController extends Controller
     return view('doctor.booking_history', compact('appointments'));
 
     }
-
-
-
 
     public function CreateWorkingSchedule(){
     $doctor = session('doctor');

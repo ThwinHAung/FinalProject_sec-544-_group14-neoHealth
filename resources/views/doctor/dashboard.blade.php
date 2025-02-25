@@ -42,27 +42,28 @@
       <script>
         const ctx = document.getElementById('appointmentChart').getContext('2d');
         const appointmentChart = new Chart(ctx, {
-          type: 'bar',  // Bar chart; change to 'line' if you prefer a line chart
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],  // 12 months of the year
-            datasets: [{
-              label: 'Appointments',
-              data: [14, 20, 18, 18, 20, 15, 10, 25, 22, 30, 28, 32],  // Sample data for each month
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Light green color
-              borderColor: 'rgba(75, 192, 192, 1)',  // Darker green for the border
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true  // Ensures the y-axis starts at zero
-              }
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 
+                datasets: [{
+                    label: 'Appointments',
+                    data: @json($appointmentsPerMonth),  
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)', 
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true  // Ensures the y-axis starts at zero
+                    }
+                }
             }
-          }
         });
-      </script>
+    </script>
+    
 
     {{-- <div id="date-range-picker" class="flex items-center space-x-4 mt-7">
         <div class="relative">
