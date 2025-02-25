@@ -27,7 +27,7 @@
   ```bash
   php artisan key:generate
 
-### **6. Configure the Database Connection
+### **6. Configure the Database Connection at env you created at step 4
 -
   ```bash
     DB_HOST=127.0.0.1
