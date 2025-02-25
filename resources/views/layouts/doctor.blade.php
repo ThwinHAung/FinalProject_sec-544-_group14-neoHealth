@@ -21,7 +21,7 @@
             <ul class="space-y-2 mt-4 px-4">
                 <li><a href="{{route('doctor.dashboard')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Dashboard</a></li>
                 <li><a href="{{route('doctor.appointment_history')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Booking History</a></li>
-                <li><a href="{{route ('doctor.create_prescription')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Create Prescription</a></li>
+                <li><a href="{{route ('doctor.prescription')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Create Prescription</a></li>
                 <li><a href="{{route('doctor.working_schedule')}}" class="block py-2 text-lg text-gray-300 hover:bg-gray-700 rounded">Available Schedule</a></li>
             </ul>
         </div>

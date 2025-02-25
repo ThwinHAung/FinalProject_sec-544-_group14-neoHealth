@@ -23,10 +23,6 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact('totalDoctors', 'totalPatients', 'totalAppointmentsToday'));
     }
-
-    public function user_table(){
-        return view('admin.user_table');
-    }
     public function appointment_table(){
         return view('admin.appointment_table');
     }
@@ -129,8 +125,6 @@ class DashboardController extends Controller
     return view('doctor.time_slot', ['timeSlots' => $timeSlots]);
     }
 
-    public function CreatePresctiption(){
-        return view('doctor.medicine_prescription');
-    }
+
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\Prescription;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Patient;
 use App\Http\Controllers\TimeSlotController;
@@ -44,6 +45,10 @@ Route::get('/admin_dashboard',[DashboardController::class,'showDashboard'])->nam
 
 Route::get('/admin_dashboard/user_table',[PatientController::class,'show_patient_table'])->name('admin.patient');
 Route::delete('/admin_dashboard/user_table/{patient}',[PatientController::class,'destroy'])->name('admin.patient.remove');
+Route::get('/admin_dashboard/user_table/{patientId}', [PatientController::class, 'edit'])->name('admin.patient.edit');
+Route::put('/admin_dashboard/user_table/{patientId}', [PatientController::class, 'updatePatient'])->name('admin.patient.update');
+
+
 Route::get('/admin_dashboard/appointment_table',[DashboardController::class,'appointment_table'])->name('admin.appointment');
 Route::get('/admin_dashboard/doctor_table',[DoctorController::class,'show_doctor_table'])->name('admin.doctor');
 Route::post('/admin_dashboard/doctor_table',[DoctorController::class,'store'])->name('admin.storedoctor');
@@ -71,7 +76,9 @@ Route::put('/doctor_dashboard/update-profile',[DoctorController::class,'updatePr
 Route::get('/doctor_dashboard',[DashboardController::class,'showDoctorDashboard'])->name('doctor.dashboard');
 Route::get('/doctor_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistoryAtDoctor'])->name('doctor.appointment_history');
 Route::get('/doctor_dashboard/working_schedule',[DashboardController::class,'CreateWorkingSchedule'])->name('doctor.working_schedule');
-Route::get('/doctor_dashboard/create_prescription',[DashboardController::class,'CreatePresctiption'])->name('doctor.create_prescription');
+
+Route::get('/doctor_dashboard/create_prescription',[Prescription::class,'CreatePrescription'])->name('doctor.prescription');
+Route::post('/doctor_dashboard/store_prescription', [Prescription::class, 'storePrescription'])->name('doctor.store_prescription');
 Route::post('/timeslot/store', [TimeSlotController::class, 'store'])->name('timeslot.store');
 
 });

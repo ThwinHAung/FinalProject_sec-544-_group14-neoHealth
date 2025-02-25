@@ -141,5 +141,57 @@ class PatientController extends Controller
     
         return redirect()->route('patient.dashboard')->with('success', 'Profile updated successfully');
     }
+
+    public function edit($patientId) {
+        $patient = DB::select('
+            SELECT id, name, age, email, phone_number, address, emergency_address
+            FROM patients
+            WHERE id = :patientId', ['patientId' => $patientId]);
+    
+        if (empty($patient)) {
+            return redirect()->route('admin.patient')->with('error', 'Patient not found');
+        }
+    
+        return view('admin.user_table', ['patient' => $patient[0]]);
+    }
+    
+    public function updatePatient(Request $request, $id) {
+
+
+        $validated = $request->validate([
+            'full-name' => 'required|string|max:255',
+            'age' => 'nullable|integer',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string',
+            'emergency_address' => 'nullable|string',
+
+        ]);
+        try {
+            // Update patient record using raw SQL
+            DB::update('
+                UPDATE patients
+                SET name = :name,
+                    age = :age,
+                    email = :email,
+                    phone_number = :phone,
+                    address = :address,
+                    emergency_address = :emergency_address
+                WHERE id = :patientId', [
+                    'name' => $validated['full-name'],
+                    'age' => $validated['age'],
+                    'email' => $validated['email'],
+                    'phone' => $validated['phone'],
+                    'address' => $validated['address'],
+                    'emergency_address' => $validated['emergency_address'],
+                    'patientId' => $id
+                ]);
+            return redirect()->route('admin.patient')->with('success', 'Patient updated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error while updating patient: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
+        }
+    }
+    
     
 }
