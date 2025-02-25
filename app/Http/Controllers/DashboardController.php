@@ -24,9 +24,32 @@ class DashboardController extends Controller
     //Patient
     public function showPatientDashboard(){
         if (!session()->has('patient')) {
-            return redirect()->route('login'); // Redirect to register if no session
+            return redirect()->route('login'); 
         }
-        return view('patient.dashboard', ['patient' => session('patient')]);
+        $patient_id = session('patient')->id;
+
+        $appointments = DB::table('appointments')
+            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+            ->join('employees', 'doctors.employee_id', '=', 'employees.id') 
+            ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+            ->select(
+                'appointments.id',
+                'doctors.id as doctor_id',
+                'doctors.specialty',
+                'employees.name as doctor_name', 
+                'appointments.created_at as appointment_date',
+                'time_slots.date as time_slot_date',
+                'time_slots.start_time',
+                'appointments.description',
+                'appointments.time_slot_id',
+                'appointments.status'
+            )
+            ->where('appointments.patient_id', $patient_id)
+            ->get();
+        
+
+
+        return view('patient.dashboard', ['patient' => session('patient')],compact('appointments'));
     }
     public function makeAppointment(){
         $specialties = Doctor::select('specialty')->distinct()->get();

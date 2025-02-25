@@ -9,6 +9,7 @@ use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Patient;
 use App\Http\Controllers\TimeSlotController;
+use App\Models\TimeSlot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -57,6 +58,9 @@ Route::get('/patient_dashboard/prescription',[DashboardController::class,'showPr
 Route::get('/patient_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistory'])->name('patient.appointment_history');
 Route::get('/patient_dashboard/get-available-slots', [TimeSlotController::class, 'getAvailableSlots'])->name('patient.getAvailableSlots');
 Route::get('/get-doctors-by-specialty', [DashboardController::class, 'getDoctorsBySpecialty'])->name('get-doctors-by-specialty');
+Route::post('/patient/book-appointment', [TimeSlotController::class, 'bookAppointment'])->name('patient.bookAppointment');
+Route::put('/patient/book-appointment', [TimeSlotController::class, 'changeAppointment'])->name('patient.bookAppointment');
+Route::delete('/appointments/{id}', [TimeSlotController::class, 'destroy'])->name('patient.cancelAppointment');
 
 
 //Doctor 

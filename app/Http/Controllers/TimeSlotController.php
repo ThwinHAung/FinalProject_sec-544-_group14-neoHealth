@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Models\TimeSlot;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +21,7 @@ class TimeSlotController extends Controller
         ]);
         
         // Convert date to Y-m-d format
-        $validatedData['date'] = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+        $validatedData['date'] = Carbon::createFromFormat('m/d/Y', $request->date)->format('Y-m-d');
         $formatedDate = $validatedData['date'];
 
         // TimeSlot::create($validatedData);
@@ -45,9 +46,9 @@ class TimeSlotController extends Controller
     }
 
     public function getAvailableSlots(Request $request) {
-        
         $specialty = $request->speciality;
-        $doctorId = $request->doctor;
+        ///check here if the doctor_id is passed
+        $doctorId = $request->doctor_id;
         $date = Carbon::createFromFormat('m/d/Y', $request->date)->format('Y-m-d');
         // dd($date);
         $query = DB::table('time_slots')
@@ -73,12 +74,66 @@ class TimeSlotController extends Controller
     // dd($availableSlots);
         return response()->json($availableSlots);
     }
+
+    public function bookAppointment(Request $request)
+    {
+        // Validate the request data
+        $validated = $request->validate([
+            'specialty' => 'required|string',
+            'doctor_id' => 'required|exists:doctors,id',
+            'date' => 'required|date',
+            'time_slot_id' => 'required|exists:time_slots,id',
+        ]);
+
+        $patient_id = session('patient.id'); 
+
+        // Create the appointment
+        DB::insert(
+            "INSERT INTO appointments (patient_id, doctor_id, description, time_slot_id, status, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, NOW(), NOW())",
+            [
+                $patient_id,
+                $validated['doctor_id'],
+                $request->description,
+                $validated['time_slot_id'],
+                'Booked'
+            ]
+        );
+
+        return response()->json(['success' => true, $patient_id]);
+    }
+
+    public function changeAppointment(Request $request)
+    {
+        $new_time_slot_id = $request->time_slot_id;
+        $appointment_id = $request->appointment_id;
+        $description = $request->description;
+        // Validate the request data
+        $validated = $request->validate([
+            'appointment_id' => 'required',
+            'time_slot_id' => 'required|exists:time_slots,id',
+        ]);
+
+        DB::update(
+            "UPDATE appointments SET time_slot_id = ?, description = ? ,updated_at = NOW() WHERE id = ?",
+            [$new_time_slot_id, $description, $appointment_id]
+        );
+
+        return response()->json(data: ['success' => true]);
+    }
     
 
     public function index()
     {
         $timeSlots = TimeSlot::all();
         return response()->json($timeSlots);
+    }
+
+    public function destroy($id)
+    {
+        DB::delete("DELETE FROM appointments WHERE id = ?", [$id]);
+        // Return success response
+        return response()->json(['message' => 'Appointment canceled successfully']);
     }
 
     

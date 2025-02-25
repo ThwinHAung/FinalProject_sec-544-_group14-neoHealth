@@ -6,7 +6,6 @@
 
     <div class="mb-5 flex items-center justify-between space-x-4">
         <div class="bg-gray-900 text-gray-200 p-5 w-full">
-
             <h1 class="text-3xl font-bold mb-6 text-center">Book an Appointment</h1>
 
             <!-- Booking Form -->
@@ -69,35 +68,14 @@
     <div id="results" class="mt-6 hidden  gap-4">
         <!-- Card 1 -->
         <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3" id="timeSlotsContainer">
-                {{-- <div>
-                    <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
-                        10:00 AM - 10:30 AM
-                    </button>
-                </div>
-                <div>
-                    <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                        11:30 AM - 12:00 PM
-                    </button>
-                </div>
-                <div>
-                    <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                        12:30 PM - 1:00 PM
-                    </button>
-                </div>
-                <div>
-                    <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                        1:30 PM - 2:00 PM
-                    </button>
-                </div>
-                <div>
-                    <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                        02:30 PM - 03:00 PM
-                    </button>
-                </div>    --}}
+                
+        </div>
+        <div id="descriptionContainer">
+
         </div>
 
         <div class="flex justify-end">
-            <button class="mt-4 ms-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
+            <button id="confirmButton" class="mt-4 ms-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
                 Book Now
             </button>
         </div>
@@ -105,7 +83,7 @@
     </div>
 
     <!-- Modal -->
-<div id="bookingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+{{-- <div id="bookingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-gray-800 text-white rounded-lg p-6 shadow-lg w-96">
       <h3 class="text-lg font-bold">Confirm Booking</h3>
       <p class="text-gray-400 mt-2">Are you sure you want to book this time slot?</p>
@@ -121,13 +99,56 @@
         <button id="confirmButton" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">Confirm</button>
       </div>
     </div>
-  </div>
+  </div> --}}
   
 
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
+    $("#confirmButton").on("click", function () {
+    console.log('clicked');
+    // Get selected data
+    let specialty = $('#specialty').val();
+    let doctor_id = $('#doctor').val();
+    let date = $('#datepicker-actions').val();
+    let formattedDate = new Date(date).toISOString().split('T')[0]; // Converts to YYYY-MM-DD format
+    let description = $('#description').val();
+    console.log(description);
+    let time_slot_id = $("button.bg-green-500").data("timeslot-id"); // Store timeslot ID in button data
+            console.log(time_slot_id);
+    // Add a check to ensure everything is selected
+    if (!specialty || !doctor_id || !date || !time_slot_id) {
+        alert("Please complete all fields.");
+        return;
+    }
+
+    // Send the booking data to the server via AJAX
+    $.ajax({
+        url: "{{ route('patient.bookAppointment') }}",  // Define the route for booking
+        method: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}",
+            specialty: specialty,
+            doctor_id: doctor_id,
+            date: formattedDate,
+            description: description,
+            time_slot_id: time_slot_id,
+        },
+        success: function (response) {
+            alert('Booking Confirmed');
+            window.location.reload();
+        },
+        error: function (error) {
+            console.error("Error booking appointment:", error);
+            alert("An error occurred while booking the appointment.".error);
+        }
+    });
+
+    // Hide the modal after confirming the booking
+    $("#bookingModal").removeClass("flex").addClass("hidden");
+});
+
       
         $('#searchButton').click(function(event) {
             event.preventDefault();
@@ -137,6 +158,7 @@
             let specialty = $('#specialty').val();
             let doctor_id = $('#doctor').val();
             let date = $('#datepicker-actions').val();
+           
 
             if (!specialty || !doctor_id || !date) {
                 alert("Please select all fields before searching.");
@@ -153,18 +175,27 @@
                 },
                 success: function(response) {
                     $('#timeSlotsContainer').empty(); // Clear previous slots
+                    $('#descriptionContainer').empty(); // Clear previous description
                     console.log("Available slots:", response);
                     if (response.length === 0) {
                         $('#timeSlotsContainer').html('<p class="text-gray-400">No available slots found.</p>');
+                        $('#descriptionContainer').empty();
                     } else {
                         response.forEach(slot => {
                             let timeSlotHtml = `
-                                <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
+                                <button class="bg-gray-700 text-white rounded-lg px-4 p-4" data-timeslot-id="${slot.id}">
                                     ${slot.start_time} - ${slot.end_time}
                                 </button>
-                            `;
+                            `;     
                             $('#timeSlotsContainer').append(timeSlotHtml);
                         });
+                        let description = `
+                            <div class="mt-5">
+                            <textarea name="description" id="description" rows="4" 
+                                class="block w-1/2 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Any words for your Doctor? (optional)..."></textarea> </div>
+                            `;
+                        $('#descriptionContainer').append(description);
                     }
                 },
                 error: function(error) {
@@ -174,7 +205,7 @@
             });
         });
 
-        $(document).ready(function () {
+    $(document).ready(function () {
         // Functionality to select only one time option across all cards
         $("#results").on("click", "button.bg-gray-700", function () {
             console.log("Time button clicked:", $(this).text());
@@ -187,6 +218,7 @@
             // Log the selected time
             console.log("Selected time across all cards:", $(this).text());
         });
+
         // Debugging: Log when jQuery is loaded
         console.log("jQuery is loaded and ready.");
         $("#results").on("click", ".bg-green-600", function () {
@@ -195,14 +227,14 @@
         $("#bookingModal").removeClass("hidden").addClass("flex");
         });
 
-    // Close the modal when "Cancel" is clicked
+        // Close the modal when "Cancel" is clicked
         $("#cancelButton").on("click", function () {
         console.log("Booking canceled");
         // Hide the modal
         $("#bookingModal").removeClass("flex").addClass("hidden");
         });
 
-    // Confirm booking
+        // Confirm booking
         $("#confirmButton").on("click", function () {
             console.log("Booking confirmed");
             // Hide the modal
@@ -210,30 +242,30 @@
             // You can add additional booking confirmation logic here
         });
     });
-        document.getElementById('confirmButton').addEventListener('click', function() {
-        alert('Booking Confirmed');
-        window.location.reload();
-    });
+    //     document.getElementById('confirmButton').addEventListener('click', function() {
+    //     alert('Booking Confirmed');
+    //     window.location.reload();
+    // });
 
     $('#specialty').change(function () {
         console.log('Specialty changed');
-    let specialty = $(this).val();
+        let specialty = $(this).val();
 
-    $.ajax({
-        url: "{{ route('get-doctors-by-specialty') }}",
-        method: 'GET',
-        data: { specialty },
-        success: function (response) {
-            $('#doctor').empty().append('<option disabled selected>Select a Doctor</option>');
+        $.ajax({
+            url: "{{ route('get-doctors-by-specialty') }}",
+            method: 'GET',
+            data: { specialty },
+            success: function (response) {
+                $('#doctor').empty().append('<option disabled selected>Select a Doctor</option>');
 
-            response.forEach(doctor => {
-                $('#doctor').append(`<option value="${doctor.id}">${doctor.name}</option>`);
-            });
-        }
+                response.forEach(doctor => {
+                    $('#doctor').append(`<option value="${doctor.id}">${doctor.name}</option>`);
+                });
+            }
+        });
     });
-});
 
 
-    </script>
+</script>
 
 @endsection
