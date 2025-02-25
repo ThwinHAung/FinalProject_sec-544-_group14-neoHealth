@@ -52,6 +52,8 @@ Route::get('/admin_dashboard/doctor_table/{doctorId}', [DoctorController::class,
 Route::put('/admin_dashboard/doctor_table/{doctorId}', [DoctorController::class, 'updateDoctor'])->name('admin.doctor.update');
 
 //Patient
+Route::get('/patient/profile', [PatientController::class,'profile'])->name('patient.profile');
+Route::put('/patient/update-profile', [PatientController::class, 'updateProfile'])->name('patient.update.profile');
 Route::get('/patient_dashboard',[DashboardController::class,'showPatientDashboard'])->name('patient.dashboard');
 Route::get('/patient_dashboard/booking',[DashboardController::class,'makeAppointment'])->name('patient.booking');
 Route::get('/patient_dashboard/prescription',[DashboardController::class,'showPrescription'])->name('patient.prescription');
@@ -64,6 +66,8 @@ Route::delete('/appointments/{id}', [TimeSlotController::class, 'destroy'])->nam
 
 
 //Doctor 
+Route::get('/doctor_dashboard/profile',[DoctorController::class,'profile'])->name('doctor.profile');
+Route::put('/doctor_dashboard/update-profile',[DoctorController::class,'updateProfile'])->name('doctor.update.profile');
 Route::get('/doctor_dashboard',[DashboardController::class,'showDoctorDashboard'])->name('doctor.dashboard');
 Route::get('/doctor_dashboard/appointment_history',[DashboardController::class,'showAppointmentHistoryAtDoctor'])->name('doctor.appointment_history');
 Route::get('/doctor_dashboard/working_schedule',[DashboardController::class,'CreateWorkingSchedule'])->name('doctor.working_schedule');

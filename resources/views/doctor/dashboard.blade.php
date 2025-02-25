@@ -13,15 +13,16 @@
 
     <!-- Example Content -->
     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
         <!-- Card 1 -->
         <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
             <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Patient Daily</h4>
-            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">15</p>
+            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">{{ $totalPatientsDaily }}</p>
         </div>
         <!-- Card 2 -->
         <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
             <h4 class="text-lg font-semibold text-gray-800 dark:text-white">Total Patient Montly</h4>
-            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">120</p>
+            <p class="mt-2 text-2xl font-bold text-gray-800 dark:text-white">{{ $totalPatientsMonthly }}</p>
         </div>
         <!-- Card 3 -->
         {{-- <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">

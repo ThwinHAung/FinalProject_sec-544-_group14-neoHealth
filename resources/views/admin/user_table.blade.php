@@ -34,6 +34,7 @@
                 <th scope="col" class="px-6 py-3">Phone Number</th>
                 <th scope="col" class="px-6 py-3">Address</th>
                 <th scope="col" class="px-6 py-3">Emergency Address</th>
+                <th scope="col" class="px-6 py-3">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +53,14 @@
                 <td class="px-6 py-4">{{ $patient->phone_number }}</td>
                 <td class="px-6 py-4">{{ $patient->address }}</td>
                 <td class="px-6 py-4">{{ $patient->emergency_address }}</td>
+                <td class="flex items-center px-6 py-4">
+                    <a href="#" data-modal-target="edit-patient-modal" data-modal-toggle="edit-patient-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <form action="{{ route('admin.patient.remove', $patient->id) }}" method="POST" class="inline-block">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Remove</button>
+                    </form>
+                </td>
             </tr>
             @endforeach       
             @endif

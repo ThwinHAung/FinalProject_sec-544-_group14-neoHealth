@@ -185,9 +185,82 @@ class DoctorController extends Controller
 
     public function destroy($doctorId)
     {
-        // Raw SQL query to delete the doctor record
+        $employeeId = DB::table('doctors')->where('id', $doctorId)->value('employee_id');
+    
+        // Delete the doctor record first
         DB::delete('DELETE FROM doctors WHERE id = :doctorId', ['doctorId' => $doctorId]);
     
-        return redirect()->route('admin.doctor')->with('success', 'Doctor removed successfully!');
+        // Delete the associated employee record
+        if ($employeeId) {
+            DB::delete('DELETE FROM employees WHERE id = :employeeId', ['employeeId' => $employeeId]);
+        }
+    
+        return redirect()->route('admin.doctor')->with('success', 'Doctor and associated employee removed successfully!');
     }
+
+    public function profile(){
+        $doctor = session('doctor');
+
+        if (!$doctor) {
+            return response()->json(['error' => 'Doctor not authenticated'], 401);
+        }
+    
+        // Fetch admin details from database
+        $doctorData = DB::select("
+            SELECT d.id, e.name, d.degree, d.department, d.specialty, d.email, d.phone_number, e.start_date 
+            FROM doctors d
+            JOIN employees e ON d.employee_id = e.id
+            WHERE d.id = ?", [$doctor['id']]);
+    
+        if (empty($doctorData)) {
+            return response()->json(['error' => 'Doctor not found'], 404);
+        }
+    
+        $doctor = $doctorData[0];
+    
+        return response()->json([
+            'id' => $doctor->id,
+            'name' => $doctor->name,
+            'degree'=> $doctor->degree,
+            'department'=> $doctor->department,
+            'specialty'=> $doctor->specialty,
+            'email' => $doctor->email,
+            'phone_number' => $doctor->phone_number,
+            'start_date' => $doctor->start_date,
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $doctor = session('doctor');
+
+        if (!$doctor) {
+            return redirect()->route('doctor.dashboard')->with('error', 'Doctor not authenticated');
+        }
+
+        // Validate request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_number' => 'required|string|max:15',
+        ]);
+
+        // Update admin details using raw SQL
+        DB::update("
+            UPDATE doctors 
+            SET email = ?, phone_number = ? 
+            WHERE id = ?", 
+            [$validatedData['email'], $validatedData['phone_number'], $doctor['id']]
+        );
+
+        DB::update("
+            UPDATE employees 
+            SET name = ? 
+            WHERE id = ?", 
+            [$validatedData['name'], $doctor['employee_id']]
+        );
+
+        return redirect()->route('doctor.dashboard')->with('success', 'Profile updated successfully');
+    }
+    
 }
