@@ -245,12 +245,13 @@ class DashboardController extends Controller
                 'patients.name as patient_name',
                 'employees.name as doctor_name',
                 'medicine_prescriptions.medicine_name',
-        'medicine_prescriptions.dosage',
-        'medicine_prescriptions.description as prescriptions',
+                'medicine_prescriptions.dosage',
+                'medicine_prescriptions.description as prescriptions',
                 'time_slots.date',
                 'time_slots.start_time',
                 'time_slots.end_time'
             )
+            ->where('appointments.patient_id', $patient_id)
             ->whereDate('time_slots.date', $date) 
             ->get();
     

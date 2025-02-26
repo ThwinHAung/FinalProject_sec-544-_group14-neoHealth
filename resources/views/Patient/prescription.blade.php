@@ -6,7 +6,6 @@
 @endsection
 @section('content')
 
-
 <div class="flex items-center gap-4">
     <!-- Calendar Input -->
     <div class="relative flex-grow max-w-fit">
@@ -32,30 +31,9 @@
     </div>
 </div>
 
-<div class="mt-6 grid grid-cols-3 gap-4 w-full">
+<!-- Container for all prescriptions -->
+<div id="appointmentContainer" class="mt-6 grid grid-cols-3 gap-4 w-full"></div>
 
-    @foreach ($appointments as $appointment)
-        <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
-            <h3 class="text-lg font-bold text-white">{{ $appointment->medicine_name }}</h3>
-            <p class="text-gray-400">Description: {{ $appointment->prescriptions }}</p>
-            {{-- <p class="text-gray-400">Time: {{ \Carbon\Carbon::parse($appointment->start_date)->format('m/d/Y | h:i A') }}</p> --}}
-            <a 
-            href="javascript:void(0);" 
-            class="text-blue-400 no-underline hover:underline hover:text-blue-500 text-l font-bold"
-            onclick="openModal({{ $appointment->id }})">
-            View Details
-        </a>
-        
-        </div>
-    @endforeach
-
-    <div id="appointmentContainer" class="mt-4 w-full flex flex-wrap gap-2"></div>
-
-    
-</div>
-
-
-<!-- Modal -->
 <!-- Modal -->
 <div id="detailsModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-1/3 p-6 relative space-y-2">
@@ -70,90 +48,71 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- JavaScript -->
 <script>
     function openModal(id) {
-        console.log(id);
         document.getElementById('detailsModal').classList.remove('hidden');
-
         fetch(`/patient_dashboard/prescription/${id}`)
-        .then(response => response.json())  
-        .then(data => {
-            console.log(data);
-            // Update modal content with the fetched data
-            document.querySelector('#detailsModal .doctor-name').textContent = `Doctor Name: ${data.doctor_name}`;
-            document.querySelector('#detailsModal .appointment-date').textContent = `Appointment Date: ${data.appointment_date}`;
-            document.querySelector('#detailsModal .dosage').textContent = `Dosage: ${data.dosage}`;
-            document.querySelector('#detailsModal .date-range').textContent = `Date Range: ${data.start_date} - ${data.end_date}`;
-            document.querySelector('#detailsModal .doctor-note').textContent = `Doctor's Note: ${data.note}`;
-        })
-        .catch(error => console.error('Error fetching prescription details:', error));
-
-
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('#detailsModal .doctor-name').textContent = `Doctor Name: ${data.doctor_name}`;
+                document.querySelector('#detailsModal .appointment-date').textContent = `Appointment Date: ${data.appointment_date}`;
+                document.querySelector('#detailsModal .dosage').textContent = `Dosage: ${data.dosage}`;
+                document.querySelector('#detailsModal .date-range').textContent = `Date Range: ${data.start_date} - ${data.end_date}`;
+                document.querySelector('#detailsModal .doctor-note').textContent = `Doctor's Note: ${data.note}`;
+            })
+            .catch(error => console.error('Error fetching prescription details:', error));
     }
+
     function closeModal() {
         document.getElementById('detailsModal').classList.add('hidden');
     }
 
+    function loadAppointments(date) {
+        $.ajax({
+            url: "{{ route('patient.searchAppointments') }}",
+            method: "GET",
+            data: { date: date },
+            success: function (response) {
+                $("#appointmentContainer").empty();
+                if (response.length === 0) {
+                    $("#appointmentContainer").html('<p class="text-gray-400">No Prescription found.</p>');
+                } else {
+                    response.forEach(appointment => {
+                        let appointmentCard = `
+                            <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
+                                <h3 class="text-lg font-bold text-white">${appointment.medicine_name}</h3>
+                                <p class="text-gray-400">Description: ${appointment.prescriptions}</p>
+                                <a href="javascript:void(0);" class="text-blue-400 no-underline hover:underline hover:text-blue-500 text-l font-bold" onclick="openModal(${appointment.id})">
+                                    View Details
+                                </a>
+                            </div>`;
+                        $("#appointmentContainer").append(appointmentCard);
+                    });
+                }
+            },
+            error: function (error) {
+                console.error("Error fetching appointments:", error);
+                alert("An error occurred while fetching appointments.");
+            }
+        });
+    }
+
     $(document).ready(function () {
+        // Load today's appointments on page load
+        let today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+        loadAppointments(today);
+
         $("#searchButton").click(function () {
-            console.log("Search button clicked!");
-            let selectedDate = $("#datepicker-actions").val();  // Format: MM/DD/YYYY
-            // Split the date by "/"
-            let dateParts = selectedDate.split("/");
-            // Reformat the date to YYYY-MM-DD
-            let formattedDate = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`;
-
-            
-
+            let selectedDate = $("#datepicker-actions").val(); // MM/DD/YYYY
             if (!selectedDate) {
                 alert("Please select a date!");
                 return;
             }
-
-            console.log("Selected Date:", formattedDate);
-
-            $.ajax({
-                url: "{{ route('patient.searchAppointments') }}", 
-                method: "GET",
-                data: {
-                    date: formattedDate
-                },
-                success: function (response) {
-                    console.log("Appointments:", response);
-
-                    // Clear old cards
-                    $("#appointmentContainer").empty();
-
-                    if (response.length === 0) {
-                        $("#appointmentContainer").html('<p class="text-gray-400">No appointments found.</p>');
-                    } else {
-                        response.forEach(appointment => {
-                            let appointmentCard = `
-                               <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
-            <h3 class="text-lg font-bold text-white">${appointment.medicine_name}</h3>
-            <p class="text-gray-400">Description: ${appointment.prescriptions}</p>
-            <a 
-                href="javascript:void(0);" 
-                class="text-blue-400 no-underline hover:underline hover:text-blue-500 text-l font-bold"
-                onclick="openModal(${appointment.id})">
-                View Details
-            </a>
-        </div>`;
-
-                            // Append new appointment card
-                            $("#appointmentContainer").append(appointmentCard);
-                        });
-                    }
-                },
-                error: function (error) {
-                    console.error("Error fetching appointments:", error);
-                    alert("An error occurred while fetching appointments.");
-                }
-            });
+            let dateParts = selectedDate.split("/");
+            let formattedDate = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`; // YYYY-MM-DD
+            loadAppointments(formattedDate);
         });
     });
-
 </script>
 
 @endsection
