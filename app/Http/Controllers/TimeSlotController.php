@@ -234,6 +234,23 @@ class TimeSlotController extends Controller
         }
     }
 
+    public function destroy($id)
+{
+    // Find the time slot by ID
+    $timeSlot = TimeSlot::findOrFail($id);
+
+    // Check if the time slot's status is "Booked"
+    if ($timeSlot->status == 'Booked') {
+        // If it's booked, redirect back with an error message
+        return redirect()->back()->with('error', 'This time slot is already booked and cannot be deleted.');
+    }
+
+    // Delete the time slot
+    $timeSlot->delete();
+
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'Time slot deleted successfully.');
+}
 
 
 

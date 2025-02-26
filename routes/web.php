@@ -89,6 +89,7 @@ Route::get('/doctor_dashboard/working_schedule',[DashboardController::class,'Cre
 Route::get('/doctor_dashboard/create_prescription',[Prescription::class,'CreatePrescription'])->name('doctor.prescription');
 Route::post('/doctor_dashboard/store_prescription', [Prescription::class, 'storePrescription'])->name('doctor.store_prescription');
 Route::post('/timeslot/store', [TimeSlotController::class, 'store'])->name('timeslot.store');
+Route::delete('/timeslot/{id}', [TimeSlotController::class, 'destroy'])->name('timeslot.destroy');
 Route::post('/appointments/{id}/update-status', [DoctorController::class, 'updateStatus'])->name('doctor.updateStatus');
 Route::delete('/appointments/{id}/cancel', [DoctorController::class, 'cancelAppointment'])
     ->name('doctor.cancelAppointment');

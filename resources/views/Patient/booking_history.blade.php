@@ -7,27 +7,13 @@
 @section('content')
 <div class="mb-5 flex items-center justify-between space-x-4">
     <!-- First form input -->
-    <div class="flex-grow">
-        <label for="booking_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Booking Id</label>
-        <input type="text" id="booking_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter booking Id" required>
-    </div>
-
-    <!-- Second form input -->
-    <div class="flex-grow">
-        <label for="doctor-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctor name</label>
-        <input type="text" id="doctor-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter doctor name" required>
-    </div>
-
-    <!-- Date range picker -->
-    <div id="date-range-picker" class="flex items-center space-x-4 mt-7">
-        <div class="relative">
-            <input id="datepicker-range-start" name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select start date">
+    <form method="GET" action="{{ route('patient.appointment_history') }}" class="flex items-end space-x-2">
+        <div class="flex-grow">
+            <label for="booking_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search with Booking Id or Name</label>
+            <input type="text" name="search" id="search" value="{{ request('search') }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter booking Id" required>
         </div>
-        <span class="text-gray-500">to</span>
-        <div class="relative">
-            <input id="datepicker-range-end" name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select end date">
-        </div>
-    </div>
+        </form>
+
 
     <!-- Search button aligned to the right -->
     <div class="ml-auto mt-7">
@@ -36,7 +22,7 @@
 </div>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="appointment_table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="p-4">
@@ -277,6 +263,40 @@
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
         modal.classList.add('hidden');
+    });
+}
+const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = function(idx, asc) {
+    return function(a, b) {
+        const v1 = getCellValue(asc ? a : b, idx);
+        const v2 = getCellValue(asc ? b : a, idx);
+        // Use numeric comparison if possible
+        return isNaN(v1) || isNaN(v2) ? v1.localeCompare(v2) : v1 - v2;
+    };
+};
+
+// Enable sorting on headers with data-sort attribute
+document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.addEventListener('click', function() {
+        const table = th.closest('table');
+        Array.from(table.querySelectorAll('tbody > tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => table.querySelector('tbody').appendChild(tr) );
+    });
+});
+
+// Simple client-side search filter (optional, if you want additional filtering besides the form)
+const searchInput = document.getElementById('search');
+if(searchInput){
+    searchInput.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#appointment_table tbody tr');
+        rows.forEach(row => {
+            const id = row.children[1].innerText.toLowerCase();
+            const name = row.children[2].innerText.toLowerCase();
+            row.style.display = (id.includes(filter) || name.includes(filter)) ? '' : 'none';
+        });
     });
 }
 

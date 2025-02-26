@@ -5,35 +5,16 @@
 
 <div class="mb-5 flex items-center justify-between space-x-4">
     <!-- First form input -->
+    <form method="GET" action="{{ route('doctor.appointment_history') }}" class="flex items-end space-x-2">
     <div class="flex-grow">
-        <label for="booking_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Booking Id</label>
-        <input type="text" id="booking_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter booking Id" required>
+        <label for="booking_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search with Booking Id or Name</label>
+        <input type="text" name="search" id="search" value="{{ request('search') }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter booking Id" required>
     </div>
-
-    <!-- Second form input -->
-    <div class="flex-grow">
-        <label for="patient-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Patient name</label>
-        <input type="text" id="patient-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter doctor name" required>
-    </div>
-
-    <!-- Date range picker -->
-    <div id="date-range-picker" class="flex items-center space-x-4 mt-7">
-        <div class="relative">
-            <input id="datepicker-range-start" name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select start date">
-        </div>
-        <span class="text-gray-500">to</span>
-        <div class="relative">
-            <input id="datepicker-range-end" name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select end date">
-        </div>
-    </div>
-
+    </form>
     <!-- Search button aligned to the right -->
-    <div class="ml-auto mt-7">
-        <button type="button" class="px-6 py-3.5 text-base font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-    </div>
 </div>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="appointment_table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="p-4">
@@ -149,56 +130,6 @@
         </div>
     </div>
 </div>
-
-
-{{-- <div id="rescheduleModal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg  p-6 relative">
-        <h2 class="text-lg font-bold mb-4">Reschedule Appointment</h2>
-        <div id="results" class="mt-6 gap-4">
-            <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3">
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
-                            10:00 AM - 10:30 AM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            11:30 AM - 12:00 PM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            12:30 PM - 1:00 PM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            1:30 PM - 2:00 PM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            02:30 PM - 03:00 PM
-                        </button>
-                    </div>   
-            </div>
-    
-            <div class="flex justify-end">
-                <button class="mt-4 ms-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
-                    Book Now
-                </button>
-            </div>
-                       
-        </div>
-
-        <!-- Close Button -->
-        <button 
-            class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" 
-            onclick="closeRescheduleModal()">
-            ✖
-        </button>
-    </div>
-</div> --}}
 
 <div id="update-status-modal" tabindex="-1" aria-hidden="true" class="modal hidden fixed inset-0 z-50 flex justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -404,6 +335,41 @@ function cancelAppointment(appointmentId) {
             console.log("Error:", error);
             alert("An error occurred while fetching appointment details.");
         }
+    });
+}
+
+const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = function(idx, asc) {
+    return function(a, b) {
+        const v1 = getCellValue(asc ? a : b, idx);
+        const v2 = getCellValue(asc ? b : a, idx);
+        // Use numeric comparison if possible
+        return isNaN(v1) || isNaN(v2) ? v1.localeCompare(v2) : v1 - v2;
+    };
+};
+
+// Enable sorting on headers with data-sort attribute
+document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.addEventListener('click', function() {
+        const table = th.closest('table');
+        Array.from(table.querySelectorAll('tbody > tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => table.querySelector('tbody').appendChild(tr) );
+    });
+});
+
+// Simple client-side search filter (optional, if you want additional filtering besides the form)
+const searchInput = document.getElementById('search');
+if(searchInput){
+    searchInput.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#appointment_table tbody tr');
+        rows.forEach(row => {
+            const id = row.children[1].innerText.toLowerCase();
+            const name = row.children[2].innerText.toLowerCase();
+            row.style.display = (id.includes(filter) || name.includes(filter)) ? '' : 'none';
+        });
     });
 }
 

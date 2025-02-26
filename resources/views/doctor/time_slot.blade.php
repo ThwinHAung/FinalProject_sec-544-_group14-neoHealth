@@ -75,7 +75,7 @@
 
         <!-- Existing Time Slots Table -->
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-            <table class="w-full text-sm text-left text-gray-500">
+            <table id="timeslot-table" class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="p-4">
@@ -86,8 +86,8 @@
                         </th>
                         <th scope="col" class="px-6 py-3">ID</th>
                         <th scope="col" class="px-6 py-3">Day</th>
-                        <th scope="col" class="px-6 py-3">Date</th> <!-- New Date Column -->
-                        <th scope="col" class="px-6 py-3">Duty Time From</th>
+                        <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="date"><strong>Date</strong></th>
+                        <th scope="col" class="px-6 py-3 cursor-pointer" data-sort="start_time"><strong>Duty Time From</strong></th>
                         <th scope="col" class="px-6 py-3">Duty Time To</th>
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
@@ -108,13 +108,50 @@
                           <td class="px-6 py-4">{{ $slot->start_time }}</td> <!-- Start Time -->
                           <td class="px-6 py-4">{{ $slot->end_time }}</td> <!-- End Time -->
                           <td class="flex items-center px-6 py-4">
-                              <a href="" class="font-medium text-red-600 hover:underline ms-3">Delete</a>
-                          </td>
+                            <!-- Delete Form with Status Check -->
+                            @if ($slot->status == 'Available')
+                                <form action="{{ route('timeslot.destroy', $slot->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this time slot?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="font-medium text-red-600 hover:underline ms-3">Delete</button>
+                                </form>
+                            @else
+                                <button type="button" class="font-medium text-red-600 hover:underline ms-3" onclick="alert('This time slot is already booked and cannot be deleted.');">Delete</button>
+                            @endif
+                        </td>
                       </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+            
+                const comparer = function(idx, asc) {
+                    return function(a, b) {
+                        const v1 = getCellValue(asc ? a : b, idx);
+                        const v2 = getCellValue(asc ? b : a, idx);
+                        // If sorting the Date column (index 3), treat values as dates
+                        if (idx === 3) {
+                            return asc ? new Date(v1) - new Date(v2) : new Date(v2) - new Date(v1);
+                        }
+                        // Default sorting for other columns (if needed later)
+                        return isNaN(v1) || isNaN(v2) ? v1.localeCompare(v2) : v1 - v2;
+                    };
+                };
+            
+                // Add click event listener to sortable headers
+                document.querySelectorAll('th[data-sort]').forEach(th => {
+                    th.addEventListener('click', function() {
+                        const table = th.closest('table');
+                        const tbody = table.querySelector('tbody');
+                        Array.from(tbody.querySelectorAll('tr'))
+                            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                            .forEach(tr => tbody.appendChild(tr));
+                    });
+                });
+            });
+        </script>
 @endsection
 
