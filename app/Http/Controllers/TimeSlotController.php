@@ -75,6 +75,19 @@ class TimeSlotController extends Controller
         return response()->json($availableSlots);
     }
 
+    public function getDoctorAvailableSlots(Request $request) {
+        $doctorId = $request->input('doctor_id');
+    
+        $timeSlots = DB::table('time_slots')
+            ->where('doctor_id', $doctorId)
+            ->where('status', 'available') 
+            ->orderBy('start_time')
+            ->get();
+    
+        return response()->json($timeSlots);
+    }
+    
+
     public function bookAppointment(Request $request)
     {
         // Validate the request data

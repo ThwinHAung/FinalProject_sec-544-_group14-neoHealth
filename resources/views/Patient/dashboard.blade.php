@@ -62,17 +62,23 @@
                         <td class="px-6 py-4">{{ $appointment->time_slot_date }}</td>
                         <td class="px-6 py-4">{{ $appointment->start_time }}</td>
                         <td class="px-6 py-4">{{ $appointment->status }}</td>
-                        <td class="flex items-center px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" onclick="showRescheduleModal(event)" data-timeslot-id="{{ $appointment->time_slot_id }}">
-                                Reschedule
-                            </a>
-                            <a href="#" 
-                            class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3" 
-                            onclick="cancelAppointment(event)"
-                            data-appointment_id="{{ $appointment->id }}">
-                            Cancel
-                         </a>
-                        </td>
+                        @if ($appointment->status == 'cancelled')
+                        <td></td>
+                    @elseif($appointment->status == 'Booked')
+                    <td class="flex items-center px-6 py-4">
+                        <a href="#" 
+                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+                           onclick="showRescheduleModal(event)" data-timeslot-id="{{ $appointment->time_slot_id }}">
+                           Reschedule
+                        </a>
+                        <a href="#" 
+                        class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3" 
+                        onclick="cancelAppointment(event)"
+                        data-appointment_id="{{ $appointment->id }}">
+                        Cancel
+                     </a>
+                    </td>
+                    @endif
                     </tr>
                     @endforeach
                 </tbody>

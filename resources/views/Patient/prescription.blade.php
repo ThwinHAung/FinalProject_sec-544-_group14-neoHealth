@@ -33,7 +33,7 @@
 </div>
 
 <div class="mt-6 grid grid-cols-3 gap-4 w-full">
-    <!-- Card 1 -->
+
     @foreach ($appointments as $appointment)
         <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
             <h3 class="text-lg font-bold text-white">{{ $appointment->medicine_name }}</h3>
@@ -48,6 +48,8 @@
         
         </div>
     @endforeach
+
+    <div id="appointmentContainer" class="mt-4 w-full flex flex-wrap gap-2"></div>
 
     
 </div>
@@ -67,7 +69,7 @@
     </div>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <!-- JavaScript -->
 <script>
     function openModal(id) {
@@ -92,8 +94,64 @@
     function closeModal() {
         document.getElementById('detailsModal').classList.add('hidden');
     }
+
+    $(document).ready(function () {
+        $("#searchButton").click(function () {
+            console.log("Search button clicked!");
+            let selectedDate = $("#datepicker-actions").val();  // Format: MM/DD/YYYY
+            // Split the date by "/"
+            let dateParts = selectedDate.split("/");
+            // Reformat the date to YYYY-MM-DD
+            let formattedDate = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}`;
+
+            
+
+            if (!selectedDate) {
+                alert("Please select a date!");
+                return;
+            }
+
+            console.log("Selected Date:", formattedDate);
+
+            $.ajax({
+                url: "{{ route('patient.searchAppointments') }}", 
+                method: "GET",
+                data: {
+                    date: formattedDate
+                },
+                success: function (response) {
+                    console.log("Appointments:", response);
+
+                    // Clear old cards
+                    $("#appointmentContainer").empty();
+
+                    if (response.length === 0) {
+                        $("#appointmentContainer").html('<p class="text-gray-400">No appointments found.</p>');
+                    } else {
+                        response.forEach(appointment => {
+                            let appointmentCard = `
+                               <div class="bg-white rounded-lg shadow-md p-4 mb-4 dark:bg-gray-800" style="width: 3%;">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${appointment.patient_name}</h3>
+                                    <p class="text-gray-600 dark:text-gray-400">Doctor: ${appointment.doctor_name}</p>
+                                    <p class="text-gray-600 dark:text-gray-400">Date: ${appointment.date}</p>
+                                    <p class="text-gray-600 dark:text-gray-400">Time: ${appointment.start_time} - ${appointment.end_time}</p>
+                                    <p class="text-gray-600 dark:text-gray-400">Status: ${appointment.status}</p>
+                                </div>
+                            `;
+
+                            // Append new appointment card
+                            $("#appointmentContainer").append(appointmentCard);
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.error("Error fetching appointments:", error);
+                    alert("An error occurred while fetching appointments.");
+                }
+            });
+        });
+    });
+
 </script>
-
-
 
 @endsection
