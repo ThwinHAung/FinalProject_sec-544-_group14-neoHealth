@@ -85,23 +85,35 @@
     
 </div>
 
-
-
 <div class="flex flex-col items-end p-8">
     <!-- Help text -->
+    @if(isset($page))
     <span class="text-sm text-gray-700 dark:text-gray-400">
-        Showing <span class="font-semibold text-gray-900 dark:text-white">1</span> to <span class="font-semibold text-gray-900 dark:text-white">10</span> of <span class="font-semibold text-gray-900 dark:text-white">100</span> Entries
+        Showing <span class="font-semibold text-gray-900 dark:text-white">{{ ($page - 1) * $perPage + 1 }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ min($page * $perPage, $totalAppointments) }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ $totalAppointments }}</span> Entries
     </span>
-    <!-- Buttons -->
+    @else
+    <span class="text-sm text-gray-700 dark:text-gray-400">
+        Showing entries
+    </span>
+    @endif
+    
+    <!-- Pagination Buttons -->
     <div class="inline-flex mt-2 xs:mt-0">
-        <button class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            Prev
-        </button>
-        <button class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            Next
-        </button>
+        @if (isset($page) && $page > 1)
+            <a href="{{ route('admin.doctor', ['page' => $page - 1]) }}" class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Prev
+            </a>
+        @endif
+
+        @if (isset($page) && $page < $totalPages)
+            <a href="{{ route('patient.appointment_history', ['page' => $page + 1]) }}" class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Next
+            </a>
+        @endif
     </div>
-  </div>
+</div>
+
+
 
   <div id="detailsModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-50">
     <div class="relative w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 space-y-4">

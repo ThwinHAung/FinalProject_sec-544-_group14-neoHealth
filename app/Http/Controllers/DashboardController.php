@@ -84,33 +84,74 @@ class DashboardController extends Controller
         return response()->json($doctors);
     }
 
-    public function showAppointmentHistory(){
+    public function showAppointmentHistory(Request $request)
+    {
         if (!session()->has('patient')) {
-            return redirect()->route('login'); 
+            return redirect()->route('login');
         }
-        $patient_id = session('patient')->id;
     
-        $appointments = DB::table('appointments')
-            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
-            ->join('employees', 'doctors.employee_id', '=', 'employees.id') 
-            ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
-            ->select(
-                'appointments.id',
-                'doctors.id as doctor_id',
-                'doctors.specialty',
-                'employees.name as doctor_name', 
-                'appointments.created_at as appointment_date',
-                'time_slots.date as time_slot_date',
-                'time_slots.start_time',
-                'appointments.description',
-                'appointments.time_slot_id',
-                'appointments.status'
-            )
-            ->where('appointments.patient_id', $patient_id)
-            ->where('appointments.status', '!=', 'booked')
-            ->get();
-
-        return view('patient.booking_history',['patient' => session('patient')],compact('appointments'));
+        $patient_id = session('patient')->id;
+        $perPage = 10; // Number of appointments per page
+        $page = $request->get('page', 1); // Current page, default to 1
+        $offset = ($page - 1) * $perPage;
+    
+        // Base SQL query
+        $sql = '
+            SELECT 
+                appointments.id,
+                doctors.id AS doctor_id,
+                doctors.specialty,
+                employees.name AS doctor_name,
+                appointments.created_at AS appointment_date,
+                time_slots.date AS time_slot_date,
+                time_slots.start_time,
+                appointments.description,
+                appointments.time_slot_id,
+                appointments.status
+            FROM appointments
+            JOIN doctors ON appointments.doctor_id = doctors.id
+            JOIN employees ON doctors.employee_id = employees.id
+            JOIN time_slots ON appointments.time_slot_id = time_slots.id
+            WHERE appointments.patient_id = :patient_id
+            AND appointments.status != "booked"
+        ';
+    
+        $bindings = [
+            'patient_id' => $patient_id,
+            'perPage' => $perPage,
+            'offset' => $offset
+        ];
+    
+        // Add LIMIT and OFFSET for pagination
+        $sql .= ' LIMIT :perPage OFFSET :offset';
+    
+        // Execute the query with pagination
+        $appointments = DB::select($sql, $bindings);
+    
+        // Get total count for pagination
+        $countSql = '
+            SELECT COUNT(*) as total 
+            FROM appointments
+            JOIN doctors ON appointments.doctor_id = doctors.id
+            JOIN employees ON doctors.employee_id = employees.id
+            JOIN time_slots ON appointments.time_slot_id = time_slots.id
+            WHERE appointments.patient_id = :patient_id
+            AND appointments.status != "booked"
+        ';
+        $totalAppointments = DB::selectOne($countSql, ['patient_id' => $patient_id])->total;
+    
+        // Calculate total pages
+        $totalPages = ($totalAppointments > 0) ? ceil($totalAppointments / $perPage) : 1;
+        $appointments = empty($appointments) ? [] : $appointments;
+    
+        return view('patient.booking_history', [
+            'patient' => session('patient'),
+            'appointments' => $appointments,
+            'page' => $page,
+            'totalPages' => $totalPages,
+            'totalAppointments' => $totalAppointments,
+            'perPage' => $perPage
+        ]);
     }
     public function showPrescription(){
 
