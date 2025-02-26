@@ -233,26 +233,26 @@ class DashboardController extends Controller
         $patient_id = session('patient')->id;
 
         $appointments = DB::table('appointments')
-        ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-        ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
-        ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
-        ->select(
-        'appointments.id',
-        'appointments.status',
-        'appointments.created_at as appointment_date',
-        'appointments.time_slot_id',
-        'appointments.description',
-        'medicine_prescriptions.medicine_name',
+            ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+            ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+            ->join('employees', 'doctors.employee_id', '=', 'employees.id')
+            ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
+            ->select(
+                'appointments.id',
+                'appointments.status',
+                'appointments.description',
+                'patients.name as patient_name',
+                'employees.name as doctor_name',
+                'medicine_prescriptions.medicine_name',
         'medicine_prescriptions.dosage',
         'medicine_prescriptions.description as prescriptions',
-        'medicine_prescriptions.note',
-        'medicine_prescriptions.start_date',
-        'medicine_prescriptions.end_date',
-        'time_slots.date'
-    )
-    ->where('appointments.patient_id', $patient_id)
-    ->whereDate('time_slots.date', '2025-02-26')
-    ->get();
+                'time_slots.date',
+                'time_slots.start_time',
+                'time_slots.end_time'
+            )
+            ->whereDate('time_slots.date', $date) 
+            ->get();
     
         return response()->json($appointments);
     }
