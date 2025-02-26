@@ -28,8 +28,53 @@ class DashboardController extends Controller
         return view('admin.user_table');
     }
     public function appointment_table(){
-        return view('admin.appointment_table');
+
+        $appointments = DB::table('appointments')
+        ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+        ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')  
+        ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')  
+        ->join('employees', 'doctors.employee_id', '=', 'employees.id') 
+        ->select(
+            'appointments.id',
+            'appointments.status',
+            'appointments.created_at as appointment_date',
+            'appointments.time_slot_id',
+            'appointments.description',
+            'doctors.id as doctor_id',
+            'time_slots.date as time_slot_date',
+            'employees.name as doctor_name', 
+            'patients.name as patient_name',
+            'time_slots.start_time',
+            'time_slots.end_time'
+        )
+        ->get();
+    
+
+        return view('admin.appointment_table',compact('appointments'));
     }
+
+    public function updateAppointment(Request $request, $appointmentId)
+{
+    $validated = $request->validate([
+        'time_slot_id' => 'required|exists:time_slots,id',
+        'description' => 'nullable|string',
+    ]);
+
+    $appointment = DB::table('appointments')
+        ->where('id', $appointmentId)
+        ->update([
+            'time_slot_id' => $validated['time_slot_id'],
+            'description' => $validated['description'],
+            'updated_at' => now(),
+        ]);
+
+    if ($appointment) {
+        return response()->json(['message' => 'Appointment updated successfully'], 200);
+    } else {
+        return response()->json(['message' => 'Failed to update appointment'], 500);
+    }
+}
+
 
     //Patient
     public function showPatientDashboard(){
@@ -108,9 +153,10 @@ class DashboardController extends Controller
 
         $patient_id = session('patient')->id;
         $appointments = DB::table('appointments')
-    ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-    ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
-    ->select(
+        ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+        ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+        ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
+        ->select(
         'appointments.id',
         'appointments.status',
         'appointments.created_at as appointment_date',
@@ -121,13 +167,40 @@ class DashboardController extends Controller
         'medicine_prescriptions.description as prescriptions',
         'medicine_prescriptions.note',
         'medicine_prescriptions.start_date',
-        'medicine_prescriptions.end_date'
-
+        'medicine_prescriptions.end_date',
+        'time_slots.date'
     )
     ->where('appointments.patient_id', $patient_id)
+    ->whereDate('time_slots.date', Carbon::today()->addDay()->toDateString())
     ->get();
         return view('patient.prescription',compact('appointments'));
     }
+
+    public function searchAppointment(Request $request){
+        $date = $request->input('date');
+
+        $appointments = DB::table('appointments')
+            ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+            ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+            ->join('employees', 'doctors.employee_id', '=', 'employees.id')
+            ->select(
+                'appointments.id',
+                'appointments.status',
+                'appointments.description',
+                'patients.name as patient_name',
+                'employees.name as doctor_name',
+                'time_slots.date',
+                'time_slots.start_time',
+                'time_slots.end_time'
+            )
+            ->whereDate('time_slots.date', $date) 
+            ->get();
+    
+        return response()->json($appointments);
+    }
+
+
 
     public function prescriptionDetail($id){
         $appointment = DB::table('appointments')

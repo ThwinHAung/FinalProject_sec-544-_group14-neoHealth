@@ -57,186 +57,46 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Sample Appointment Data -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">1</td>
-                <td class="px-6 py-4">Alice Johnson</td>
-                <td class="px-6 py-4">Dr. John Smith</td>
-                <td class="px-6 py-4">2025-02-05</td>
-                <td class="px-6 py-4">10:00 AM</td>
-                <td class="px-6 py-4">Scheduled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" 
-                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
-                    onclick="showRescheduleModal(event)">
-                    Reschedule
-                    </a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-2" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-2" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4">Bob Martin</td>
-                <td class="px-6 py-4">Dr. Emma Johnson</td>
-                <td class="px-6 py-4">2025-02-06</td>
-                <td class="px-6 py-4">02:00 PM</td>
-                <td class="px-6 py-4">Completed</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">3</td>
-                <td class="px-6 py-4">Charlie Williams</td>
-                <td class="px-6 py-4">Dr. Robert Williams</td>
-                <td class="px-6 py-4">2025-02-07</td>
-                <td class="px-6 py-4">09:30 AM</td>
-                <td class="px-6 py-4">Canceled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-4" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-4" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">4</td>
-                <td class="px-6 py-4">Diana Green</td>
-                <td class="px-6 py-4">Dr. Sarah Lee</td>
-                <td class="px-6 py-4">2025-02-08</td>
-                <td class="px-6 py-4">11:00 AM</td>
-                <td class="px-6 py-4">Scheduled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-5" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-5" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">5</td>
-                <td class="px-6 py-4">Edward Black</td>
-                <td class="px-6 py-4">Dr. Michael Scott</td>
-                <td class="px-6 py-4">2025-02-09</td>
-                <td class="px-6 py-4">12:30 PM</td>
-                <td class="px-6 py-4">Completed</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-6" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-6" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">6</td>
-                <td class="px-6 py-4">Fiona White</td>
-                <td class="px-6 py-4">Dr. Olivia Brown</td>
-                <td class="px-6 py-4">2025-02-10</td>
-                <td class="px-6 py-4">03:00 PM</td>
-                <td class="px-6 py-4">Scheduled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-7" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-7" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">7</td>
-                <td class="px-6 py-4">George Martin</td>
-                <td class="px-6 py-4">Dr. Linda Green</td>
-                <td class="px-6 py-4">2025-02-11</td>
-                <td class="px-6 py-4">04:00 PM</td>
-                <td class="px-6 py-4">Completed</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-8" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-8" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">8</td>
-                <td class="px-6 py-4">Hannah Lee</td>
-                <td class="px-6 py-4">Dr. Nathan White</td>
-                <td class="px-6 py-4">2025-02-12</td>
-                <td class="px-6 py-4">05:30 PM</td>
-                <td class="px-6 py-4">Scheduled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-9" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-9" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">9</td>
-                <td class="px-6 py-4">Irene Scott</td>
-                <td class="px-6 py-4">Dr. Karen Black</td>
-                <td class="px-6 py-4">2025-02-13</td>
-                <td class="px-6 py-4">06:00 PM</td>
-                <td class="px-6 py-4">Canceled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View Details</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-10" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-10" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <td class="px-6 py-4">10</td>
-                <td class="px-6 py-4">Jack Turner</td>
-                <td class="px-6 py-4">Dr. Robert Brown</td>
-                <td class="px-6 py-4">2025-02-14</td>
-                <td class="px-6 py-4">07:00 PM</td>
-                <td class="px-6 py-4">Scheduled</td>
-                <td class="flex items-center px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Reschedule</a>
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Cancel</a>
-                </td>
-            </tr>
+     
+    @foreach ($appointments as $appointment)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                     data-id="{{ $appointment->id }}" 
+                    data-doctorid="{{ $appointment->doctor_id }}" 
+                    data-doctor="{{ $appointment->doctor_name }}" 
+                    data-status="{{ $appointment->status }}"
+                    data-date="{{ $appointment->time_slot_date }}" 
+                    >
+        <td class="w-4 p-4">
+            <div class="flex items-center">
+                {{-- <input id="checkbox-{{ $appointment->id }}" type="checkbox" 
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"> --}}
+        </div>
+    </td>
+    <td class="px-6 py-4">{{ $appointment->id }}</td>
+    <td class="px-6 py-4">{{ $appointment->patient_name }}</td>
+    <td class="px-6 py-4">{{ $appointment->doctor_name }}</td>
+    <td class="px-6 py-4">{{ date('Y-m-d', strtotime($appointment->appointment_date)) }}</td>
+    <td class="px-6 py-4">{{ date('h:i A', strtotime($appointment->start_time)) }}</td>
+    <td class="px-6 py-4">{{ $appointment->status }}</td>
+    @if ($appointment->status == 'cancelled')
+        <td></td>
+    @elseif($appointment->status == 'Booked')
+    <td class="flex items-center px-6 py-4">
+        <a href="#" 
+           class="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+           onclick="showRescheduleModal(event)" data-timeslot-id="{{ $appointment->time_slot_id }}">
+           Reschedule
+        </a>
+        <a href="#" 
+        class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3" 
+        onclick="cancelAppointment(event)"
+        data-appointment_id="{{ $appointment->id }}">
+        Cancel
+     </a>
+    </td>
+    @endif
+</tr>
+@endforeach
         </tbody>
     </table>
 </div>
@@ -262,37 +122,16 @@
     <div class="bg-white rounded-lg shadow-lg  p-6 relative">
         <h2 class="text-lg font-bold mb-4">Reschedule Appointment</h2>
         <div id="results" class="mt-6 gap-4">
-            <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3">
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4">
-                            10:00 AM - 10:30 AM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            11:30 AM - 12:00 PM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            12:30 PM - 1:00 PM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            1:30 PM - 2:00 PM
-                        </button>
-                    </div>
-                    <div>
-                        <button class="bg-gray-700 text-white rounded-lg px-4 p-4" >
-                            02:30 PM - 03:00 PM
-                        </button>
-                    </div>   
+            <div class="p-4 bg-gray-600 rounded-lg shadow-lg grid grid-cols-4 gap-3" id="timeSlotsContainer">
+                  
+            </div>
+            <div id="descriptionContainer">
+
             </div>
     
             <div class="flex justify-end">
                 <button class="mt-4 ms-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition">
-                    Book Now
+                    Book Now 
                 </button>
             </div>
                        
@@ -307,27 +146,187 @@
     </div>
 </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
+<div id="bookingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-gray-800 text-white rounded-lg p-6 shadow-lg w-96">
+      <h3 class="text-lg font-bold">Confirm Rebooking</h3>
+      <p class="text-gray-400 mt-2">Are you sure you want to rebook this time slot?</p>
+      
+      <div class="mt-4 flex justify-end space-x-4">
+        <button id="cancelButton" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg transition">Cancel</button>
+        <button id="confirmButton" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition">Confirm</button>
+      </div>
+    </div>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!-- Custom Script for Datepicker Initialization -->
   <script>
-    function showRescheduleModal(event) {
-        event.preventDefault(); // Prevent link default action
-        document.getElementById('rescheduleModal').classList.remove('hidden');
+   function showRescheduleModal(event) {
+    event.preventDefault(); 
+    document.getElementById('rescheduleModal').classList.remove('hidden');
+
+    // Retrieve selected row data
+    let tr = event.target.closest('tr');
+    selectedAppointmentId = tr.children[1].textContent;
+    selectedDoctorId = tr.dataset.doctorid; // Ensure data-doctorid is set in the <tr>
+    console.log("Doctor ID:", selectedDoctorId);
+
+    let timestamp = tr.dataset.date;
+    let dateStr = timestamp.split(" ")[0];
+    let parts = dateStr.split("-");  
+    selectedFormattedDate = `${parts[1]}/${parts[2]}/${parts[0]}`;  
+    console.log("Formatted Date:", selectedFormattedDate);
+
+    if (!selectedDoctorId) {
+        alert("Doctor ID is missing. Cannot fetch available time slots.");
+        return;
     }
+
+    // Fetch all available time slots for the selected doctor
+    $.ajax({
+        url: "{{ route('admin.getDoctorAvailableSlots') }}", // New route for fetching all slots
+        method: "GET",
+        data: {
+            doctor_id: selectedDoctorId,
+        },
+        success: function(response) {
+            $('#timeSlotsContainer').empty(); // Clear previous slots
+            $('#descriptionContainer').empty(); // Clear previous description field
+            console.log("Available slots:", response);
+
+            if (response.length === 0) {
+                $('#timeSlotsContainer').html('<p class="text-gray-400">No available slots found.</p>');
+            } else {
+                response.forEach(slot => {
+                    let timeSlotHtml = `
+                        <button class="bg-gray-700 text-white rounded-lg px-4 py-2 my-1 block w-full text-center"
+                            data-timeslot-id="${slot.id}">
+                            ${slot.start_time} - ${slot.end_time}
+                        </button>
+                    `;                  
+                    $('#timeSlotsContainer').append(timeSlotHtml); 
+                });
+
+                let descriptionHtml = `
+                    <div class="mt-5">
+                        <textarea name="description" id="description" rows="4" 
+                            class="block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Any words for your Doctor? (optional)..."></textarea>
+                    </div>
+                `;
+                $('#descriptionContainer').append(descriptionHtml);
+            }
+        },
+        error: function(error) {
+            console.error("Error fetching slots:", error);
+            alert("An error occurred while fetching available slots.");
+        }
+    });
+}
+
     function closeRescheduleModal() {
         document.getElementById('rescheduleModal').classList.add('hidden');
     }
-      // Wait for the DOM to load before initializing Flowbite
-      document.addEventListener('DOMContentLoaded', function () {
-          const startDatePicker = new Datepicker(document.getElementById('datepicker-range-start'), {
-              format: 'mm/dd/yyyy', // you can change the date format as needed
-          });
+    //   // Wait for the DOM to load before initializing Flowbite
+    //   document.addEventListener('DOMContentLoaded', function () {
+    //       const startDatePicker = new Datepicker(document.getElementById('datepicker-range-start'), {
+    //           format: 'mm/dd/yyyy', // you can change the date format as needed
+    //       });
 
-          const endDatePicker = new Datepicker(document.getElementById('datepicker-range-end'), {
-              format: 'mm/dd/yyyy', // you can change the date format as needed
-          });
-      });
+    //       const endDatePicker = new Datepicker(document.getElementById('datepicker-range-end'), {
+    //           format: 'mm/dd/yyyy', // you can change the date format as needed
+    //       });
+    //   });
+
+      $(document).ready(function () {
+        // Functionality to select only one time option across all cards
+        $("#results").on("click", "button.bg-gray-700", function () {
+            console.log("Time button clicked:", $(this).text());
+            // Deselect all previously selected time buttons
+            $("button.bg-blue-600").removeClass("bg-blue-600").addClass("bg-gray-700");
+
+            // Highlight the clicked button
+            $(this).removeClass("bg-gray-700").addClass("bg-blue-600");
+            selectedTimeSlotId=$(this).data('timeslot-id');
+            console.log("Selected time across all cards:", $(this).text());
+        });
+        $("#results").on("click", ".bg-green-600", function () {
+        console.log("Book Now button clicked");
+        // Show the modal
+        $("#bookingModal").removeClass("hidden").addClass("flex");
+        });
+        $("#cancelButton").on("click", function () {
+        console.log("Booking canceled");
+        // Hide the modal
+        $("#bookingModal").removeClass("flex").addClass("hidden");
+        });
+
+        $("#confirmButton").on("click", function () {
+            console.log("Booking confirmed");
+            // Hide the modal
+            $("#bookingModal").removeClass("flex").addClass("hidden");
+        });
+    });
+
+      document.getElementById('confirmButton').addEventListener('click', function () {
+    let description = $('#description').val();
+    let appointmentId = selectedAppointmentId;
+    let time_slot_id = selectedTimeSlotId;
+
+    console.log("Description:", description);
+    console.log("Appointment ID:", appointmentId);
+    console.log("Time Slot ID:", time_slot_id);
+
+    if (!time_slot_id || !appointmentId) {
+        alert("Please complete all fields.");
+        return;
+    }
+
+    $.ajax({
+        url: `/admin_dashboard/book-appointment/${appointmentId}`,  // Use dynamic route
+        method: 'PUT',
+        data: {
+            _token: "{{ csrf_token() }}",
+            description: description,
+            time_slot_id: time_slot_id,
+        },
+        success: function (response) {
+            alert('Booking Confirmed');
+            window.location.reload();
+        },
+        error: function (error) {
+            console.error("Error booking appointment:", error);
+            alert("An error occurred while booking the appointment.");
+        }
+    });
+});
+
+function cancelAppointment(event) {
+    event.preventDefault(); // Prevent link default behavior
+    let appointmentId = event.target.dataset.appointment_id; // Get the appointment ID
+    console.log(appointmentId);
+    if (!confirm('Are you sure you want to cancel this appointment?')) {
+        return; // If user cancels, stop further execution
+    }
+
+    // Send PUT request to update the status of the appointment
+    fetch(`/appointments/${appointmentId}/cancel`, {
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        alert(data.message); // Show the success message
+        location.reload(); // Reload the page to reflect the changes
+    })
+    .catch(error => console.error('Error:', error)); // Handle errors
+};
+
   </script>
 
 @endsection

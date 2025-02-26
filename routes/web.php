@@ -50,6 +50,10 @@ Route::post('/admin_dashboard/doctor_table',[DoctorController::class,'store'])->
 Route::delete('/admin_dashboard/doctor_table/{doctor}',[DoctorController::class,'destroy'])->name('admin.doctor.remove');
 Route::get('/admin_dashboard/doctor_table/{doctorId}', [DoctorController::class, 'edit'])->name('admin.doctor.edit');
 Route::put('/admin_dashboard/doctor_table/{doctorId}', [DoctorController::class, 'updateDoctor'])->name('admin.doctor.update');
+Route::get('/admin_dashboard/doctor-slots', [TimeSlotController::class, 'getDoctorAvailableSlots'])
+    ->name('admin.getDoctorAvailableSlots');
+Route::put('/admin_dashboard/book-appointment/{appointment}', [DashboardController::class, 'updateAppointment'])
+    ->name('admin.bookAppointment');
 
 //Patient
 Route::get('/patient/profile', [PatientController::class,'profile'])->name('patient.profile');
@@ -63,8 +67,10 @@ Route::get('/patient_dashboard/get-available-slots', [TimeSlotController::class,
 Route::get('/get-doctors-by-specialty', [DashboardController::class, 'getDoctorsBySpecialty'])->name('get-doctors-by-specialty');
 Route::post('/patient/book-appointment', [TimeSlotController::class, 'bookAppointment'])->name('patient.bookAppointment');
 Route::put('/patient/book-appointment', [TimeSlotController::class, 'changeAppointment'])->name('patient.bookAppointment');
+Route::get('/patient/searchAppointments', [DashboardController::class, 'searchAppointment'])->name('patient.searchAppointments');
 // Route::get('/patient/bookinghistory', [TimeSlotController::class, 'bookingHistory'])->name('patient.bookingHistory');
 Route::put('/appointments/{id}/cancel', [TimeSlotController::class, 'cancel'])->name('patient.cancelAppointment');
+
 
 
 
