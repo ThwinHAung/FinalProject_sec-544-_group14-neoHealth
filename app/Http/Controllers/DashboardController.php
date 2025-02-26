@@ -202,6 +202,7 @@ class DashboardController extends Controller
     public function showPrescription(){
 
         $patient_id = session('patient')->id;
+        $today = Carbon::now('Asia/Bangkok')->toDateString();
         $appointments = DB::table('appointments')
         ->join('patients', 'appointments.patient_id', '=', 'patients.id')
         ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
@@ -221,31 +222,37 @@ class DashboardController extends Controller
         'time_slots.date'
     )
     ->where('appointments.patient_id', $patient_id)
-    ->whereDate('time_slots.date', Carbon::today()->addDay()->toDateString())
+    ->whereDate('time_slots.date', $today)
     ->get();
+
         return view('patient.prescription',compact('appointments'));
     }
 
     public function searchAppointment(Request $request){
         $date = $request->input('date');
+        $patient_id = session('patient')->id;
 
         $appointments = DB::table('appointments')
-            ->join('patients', 'appointments.patient_id', '=', 'patients.id')
-            ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
-            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
-            ->join('employees', 'doctors.employee_id', '=', 'employees.id')
-            ->select(
-                'appointments.id',
-                'appointments.status',
-                'appointments.description',
-                'patients.name as patient_name',
-                'employees.name as doctor_name',
-                'time_slots.date',
-                'time_slots.start_time',
-                'time_slots.end_time'
-            )
-            ->whereDate('time_slots.date', $date) 
-            ->get();
+        ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+        ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
+        ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
+        ->select(
+        'appointments.id',
+        'appointments.status',
+        'appointments.created_at as appointment_date',
+        'appointments.time_slot_id',
+        'appointments.description',
+        'medicine_prescriptions.medicine_name',
+        'medicine_prescriptions.dosage',
+        'medicine_prescriptions.description as prescriptions',
+        'medicine_prescriptions.note',
+        'medicine_prescriptions.start_date',
+        'medicine_prescriptions.end_date',
+        'time_slots.date'
+    )
+    ->where('appointments.patient_id', $patient_id)
+    ->whereDate('time_slots.date', '2025-02-26')
+    ->get();
     
         return response()->json($appointments);
     }
