@@ -68,20 +68,41 @@ class DashboardController extends Controller
         'time_slot_id' => 'required|exists:time_slots,id',
         'description' => 'nullable|string',
     ]);
+    $new_time_slot_id = $request->time_slot_id;
+    $description = $request->description;
 
-    $appointment = DB::table('appointments')
-        ->where('id', $appointmentId)
-        ->update([
-            'time_slot_id' => $validated['time_slot_id'],
-            'description' => $validated['description'],
-            'updated_at' => now(),
-        ]);
+    $current_appointment = DB::selectOne(
+        "SELECT time_slot_id FROM appointments WHERE id = ?",
+        [$appointmentId]
+    );
 
-    if ($appointment) {
-        return response()->json(['message' => 'Appointment updated successfully'], 200);
-    } else {
-        return response()->json(['message' => 'Failed to update appointment'], 500);
+    if (!$current_appointment) {
+        throw new \Exception('Appointment not found');
     }
+    
+    $old_time_slot_id = $current_appointment->time_slot_id;
+
+
+        DB::update(
+            "UPDATE appointments SET time_slot_id = ?, description = ?, updated_at = NOW() WHERE id = ?",
+            [$new_time_slot_id, $description, $appointmentId]
+        );
+
+        // Update the new time slot to Booked
+        DB::update(
+            "UPDATE time_slots SET status = ? WHERE id = ?",
+            ['Booked', $new_time_slot_id]
+        );
+
+        // Update the old time slot to Available (if it's different from the new one)
+        if ($old_time_slot_id != $new_time_slot_id) {
+            DB::update(
+                "UPDATE time_slots SET status = ? WHERE id = ?",
+                ['Available', $old_time_slot_id]
+            );
+        }
+
+        return response()->json(['message' => 'Appointment updated successfully'], 200);
 }
 
 
