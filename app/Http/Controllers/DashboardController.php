@@ -184,12 +184,16 @@ class DashboardController extends Controller
             ->join('time_slots', 'appointments.time_slot_id', '=', 'time_slots.id')
             ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
             ->join('employees', 'doctors.employee_id', '=', 'employees.id')
+            ->join('medicine_prescriptions', 'medicine_prescriptions.appointment_id', '=', 'appointments.id')
             ->select(
                 'appointments.id',
                 'appointments.status',
                 'appointments.description',
                 'patients.name as patient_name',
                 'employees.name as doctor_name',
+                'medicine_prescriptions.medicine_name',
+        'medicine_prescriptions.dosage',
+        'medicine_prescriptions.description as prescriptions',
                 'time_slots.date',
                 'time_slots.start_time',
                 'time_slots.end_time'

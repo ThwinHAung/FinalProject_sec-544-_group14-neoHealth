@@ -130,14 +130,16 @@
                     } else {
                         response.forEach(appointment => {
                             let appointmentCard = `
-                               <div class="bg-white rounded-lg shadow-md p-4 mb-4 dark:bg-gray-800" style="width: 3%;">
-                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${appointment.patient_name}</h3>
-                                    <p class="text-gray-600 dark:text-gray-400">Doctor: ${appointment.doctor_name}</p>
-                                    <p class="text-gray-600 dark:text-gray-400">Date: ${appointment.date}</p>
-                                    <p class="text-gray-600 dark:text-gray-400">Time: ${appointment.start_time} - ${appointment.end_time}</p>
-                                    <p class="text-gray-600 dark:text-gray-400">Status: ${appointment.status}</p>
-                                </div>
-                            `;
+                               <div class="p-4 bg-gray-600 rounded-lg shadow-lg w-full">
+            <h3 class="text-lg font-bold text-white">${appointment.medicine_name}</h3>
+            <p class="text-gray-400">Description: ${appointment.prescriptions}</p>
+            <a 
+                href="javascript:void(0);" 
+                class="text-blue-400 no-underline hover:underline hover:text-blue-500 text-l font-bold"
+                onclick="openModal(${appointment.id})">
+                View Details
+            </a>
+        </div>`;
 
                             // Append new appointment card
                             $("#appointmentContainer").append(appointmentCard);
